@@ -1,0 +1,17 @@
+{
+  "source_sha256": "10f89c7e7af280a764c6aaeb4c83fa9d95e4a4a85887b6c31b9cbf9f82582c7d",
+  "valid": false,
+  "mean_score": null,
+  "trials": [
+    {
+      "seed": 0,
+      "wall_seconds": 0.9410383750218898,
+      "cpu_seconds": 0.7195909999999959,
+      "exit_code": 1,
+      "timeout": false,
+      "stdout": "",
+      "stderr": "<HOME>/code/flint-autoresearch-release/.venv/lib/python3.12/site-packages/sklearn/linear_model/_linear_loss.py:200: RuntimeWarning: divide by zero encountered in matmul\n  raw_prediction = X @ weights + intercept\n<HOME>/code/flint-autoresearch-release/.venv/lib/python3.12/site-packages/sklearn/linear_model/_linear_loss.py:200: RuntimeWarning: overflow encountered in matmul\n  raw_prediction = X @ weights + intercept\n<HOME>/code/flint-autoresearch-release/.venv/lib/python3.12/site-packages/sklearn/linear_model/_linear_loss.py:200: RuntimeWarning: invalid value encountered in matmul\n  raw_prediction = X @ weights + intercept\n<HOME>/code/flint-autoresearch-release/.venv/lib/python3.12/site-packages/sklearn/linear_model/_linear_loss.py:330: RuntimeWarning: divide by zero encountered in matmul\n  grad[:n_features] = X.T @ grad_pointwise + l2_reg_strength * weights\n<HOME>/code/flint-autoresearch-release/.venv/lib/python3.12/site-packages/sklearn/linear_model/_linear_loss.py:330: RuntimeWarning: overflow encountered in matmul\n  grad[:n_features] = X.T @ grad_pointwise + l2_reg_strength * weights\n<HOME>/code/flint-autoresearch-release/.venv/lib/python3.12/site-packages/sklearn/linear_model/_linear_loss.py:330: RuntimeWarning: invalid value encountered in matmul\n  grad[:n_features] = X.T @ grad_pointwise + l2_reg_strength * weights\n<HOME>/code/flint-autoresearch-release/.venv/lib/python3.12/site-packages/sklearn/linear_model/_glm/glm.py:351: RuntimeWarning: divide by zero encountered in matmul\n  return X @ self.coef_ + self.intercept_\n<HOME>/code/flint-autoresearch-release/.venv/lib/python3.12/site-packages/sklearn/linear_model/_glm/glm.py:351: RuntimeWarning: overflow encountered in matmul\n  return X @ self.coef_ + self.intercept_\n<HOME>/code/flint-autoresearch-release/.venv/lib/python3.12/site-packages/sklearn/linear_model/_glm/glm.py:351: RuntimeWarning: invalid value encountered in matmul\n  return X @ self.coef_ + self.intercept_\nTraceback (most recent call last):\n  File \"<WORKSPACE>/worker.py\", line 17, in <module>\n    solution = candidate.solve(\n               ^^^^^^^^^^^^^^^^\n  File \"<WORKSPACE>/solver.py\", line 69, in solve\n    residuals = HistGradientBoostingRegressor(\n                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nTypeError: HistGradientBoostingRegressor.__init__() got an unexpected keyword argument 'n_jobs'\n",
+      "valid": false
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "source_sha256": "077a94cc80a4223cf657f82b5af7fe054177f39aeb481ecee7179aad19ac6d55",
+  "valid": false,
+  "mean_score": null,
+  "trials": [
+    {
+      "seed": 0,
+      "wall_seconds": 1.1687764580128714,
+      "cpu_seconds": 0.9732070000000039,
+      "exit_code": 1,
+      "timeout": false,
+      "stdout": "",
+      "stderr": "<HOME>/code/flint-autoresearch-release/.venv/lib/python3.12/site-packages/sklearn/linear_model/_linear_loss.py:200: RuntimeWarning: divide by zero encountered in matmul\n  raw_prediction = X @ weights + intercept\n<HOME>/code/flint-autoresearch-release/.venv/lib/python3.12/site-packages/sklearn/linear_model/_linear_loss.py:200: RuntimeWarning: overflow encountered in matmul\n  raw_prediction = X @ weights + intercept\n<HOME>/code/flint-autoresearch-release/.venv/lib/python3.12/site-packages/sklearn/linear_model/_linear_loss.py:200: RuntimeWarning: invalid value encountered in matmul\n  raw_prediction = X @ weights + intercept\n<HOME>/code/flint-autoresearch-release/.venv/lib/python3.12/site-packages/sklearn/linear_model/_linear_loss.py:330: RuntimeWarning: divide by zero encountered in matmul\n  grad[:n_features] = X.T @ grad_pointwise + l2_reg_strength * weights\n<HOME>/code/flint-autoresearch-release/.venv/lib/python3.12/site-packages/sklearn/linear_model/_linear_loss.py:330: RuntimeWarning: overflow encountered in matmul\n  grad[:n_features] = X.T @ grad_pointwise + l2_reg_strength * weights\n<HOME>/code/flint-autoresearch-release/.venv/lib/python3.12/site-packages/sklearn/linear_model/_linear_loss.py:330: RuntimeWarning: invalid value encountered in matmul\n  grad[:n_features] = X.T @ grad_pointwise + l2_reg_strength * weights\nTraceback (most recent call last):\n  File \"<WORKSPACE>/worker.py\", line 17, in <module>\n    solution = candidate.solve(\n               ^^^^^^^^^^^^^^^^\n  File \"<WORKSPACE>/solver.py\", line 65, in solve\n    res_cat_pos = [res_cols.index(c) for c in residual_categorical]\n                   ^^^^^^^^^^^^^^^^^\nValueError: 'hr' is not in list\n",
+      "valid": false
+    }
+  ]
+}

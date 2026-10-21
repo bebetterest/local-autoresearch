@@ -1,0 +1,58 @@
+I’d try a wider beam search. Instead of committing to the single best next operation each step, keep the top 16 partial schedules and expand from them. This explores more promising operation orders while still pruning aggressively.
+
+```python
+def solve(problem, seed, budget):
+    jobs = problem["jobs"]
+    n_machines = problem.get("machines", 20)
+    n_jobs = len(jobs)
+    total = sum(len(ops) for ops in jobs)
+    beam_width = 16
+
+    beam = [
+        {
+            "job_ready": [0.0] * n_jobs,
+            "machine_ready": [0.0] * n_machines,
+            "next_op": [0] * n_jobs,
+            "seq": [],
+        }
+    ]
+
+    for _ in range(total):
+        candidates = []
+
+        for si, state in enumerate(beam):
+            for j, ops in enumerate(jobs):
+                if state["next_op"][j] >= len(ops):
+                    continue
+
+                m, d = ops[state["next_op"][j]]
+                start = max(state["job_ready"][j], state["machine_ready"][m])
+                finish = start + d
+                key = (finish, d, j)
+                candidates.append((key, si, j, m, finish))
+
+        candidates.sort(key=lambda x: x[0])
+        next_beam = []
+
+        for key, si, j, m, finish in candidates[:beam_width]:
+            state = beam[si]
+            new_state = {
+                "job_ready": state["job_ready"][:],
+                "machine_ready": state["machine_ready"][:],
+                "next_op": state["next_op"][:],
+                "seq": state["seq"] + [j],
+            }
+            new_state["job_ready"][j] = finish
+            new_state["machine_ready"][m] = finish
+            new_state["next_op"][j] += 1
+            next_beam.append(new_state)
+
+        beam = next_beam
+
+    best = min(
+        beam,
+        key=lambda s: max(max(s["job_ready"]), max(s["machine_ready"]))
+    )
+
+    return best["seq"]
+```

@@ -1,0 +1,107 @@
+import math
+import numpy as np
+from scipy.optimize import minimize
+
+
+def _grid(n):
+    side = math.ceil(math.sqrt(n))
+    radius = 0.5 / side - 1e-12
+    return [
+        [(c + 0.5) / side, (row + 0.5) / side, radius]
+        for row in range(side)
+        for c in range(side)
+    ][:n]
+
+
+def _pack26(seed):
+    r = 0.0936
+    h = math.sqrt(3.0) * r
+    circles = []
+    y = r
+    for j in range(5):
+        circles.append([r + 2.0 * r * j, y, r])
+    y += h
+    for j in range(4):
+        circles.append([2.0 * r + 2.0 * r * j, y, r])
+    y += h
+    for j in range(5):
+        circles.append([r + 2.0 * r * j, y, r])
+    y += h
+    for j in range(4):
+        circles.append([2.0 * r + 2.0 * r * j, y, r])
+    y += h
+    for j in range(5):
+        circles.append([r + 2.0 * r * j, y, r])
+    y += h
+    for j in range(3):
+        circles.append([2.0 * r + 2.0 * r * j, y, r])
+    if seed % 2 == 1:
+        circles = [[1.0 - x, y, r] for x, y, r in circles]
+    return circles
+
+
+def _max_violation(centers, r):
+    worst = 0.0
+    for x, y in centers:
+        d = min(x, 1.0 - x, y, 1.0 - y)
+        worst = max(worst, r - d)
+    for i in range(len(centers)):
+        xi, yi = centers[i]
+        for j in range(i + 1, len(centers)):
+            xj, yj = centers[j]
+            dist = math.hypot(xi - xj, yi - yj)
+            worst = max(worst, 2.0 * r - dist)
+    return worst
+
+
+def _violation(v, r):
+    centers = v.reshape(26, 2)
+    b = 0.0
+    for x, y in centers:
+        b += max(0.0, r - x) ** 2
+        b += max(0.0, r - (1.0 - x)) ** 2
+        b += max(0.0, r - y) ** 2
+        b += max(0.0, r - (1.0 - y)) ** 2
+    ov = 0.0
+    for i in range(26):
+        xi, yi = centers[i]
+        for j in range(i + 1, 26):
+            xj, yj = centers[j]
+            dist = math.hypot(xi - xj, yi - yj)
+            ov += max(0.0, 2.0 * r - dist) ** 2
+    return b + ov
+
+
+def _optimize_centers(r, centers, iterations=20):
+    v0 = np.asarray(centers, dtype=float).ravel()
+    res = minimize(
+        lambda v: _violation(v, r),
+        v0,
+        method="Powell",
+        bounds=[(0.0, 1.0)] * 52,
+        options={"maxiter": iterations, "ftol": 1e-10, "xtol": 1e-10},
+    )
+    centers_opt = res.x.reshape(26, 2)
+    return centers_opt, float(res.fun)
+
+
+def solve(n, seed, budget):
+    if n == 26:
+        base = _pack26(seed)
+        best_circles = [list(map(float, c)) for c in base]
+        best_r = base[0][2]
+        best_centers = np.array([[c[0], c[1]] for c in base], dtype=float)
+
+        r_current = best_r
+        for delta in (0.00005, 0.0001, 0.0002, 0.0003, 0.0005, 0.0008):
+            r_try = min(1.0, r_current + delta)
+            centers_opt, _ = _optimize_centers(r_try, best_centers, iterations=20)
+            if _max_violation(centers_opt, r_try) < 1e-9:
+                r_current = r_try
+                best_centers = centers_opt.copy()
+                best_circles = [[float(x), float(y), float(r_try)] for x, y in centers_opt]
+
+        if not best_circles or best_r <= 0:
+            best_circles = [list(map(float, c)) for c in _pack26(seed)]
+        return best_circles
+    return _grid(n)

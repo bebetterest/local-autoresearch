@@ -1,0 +1,159 @@
+{
+  "replays": [
+    {
+      "created_at": "2026-10-19T23:38:28.949962+00:00",
+      "purpose": "Non-scoring seed-0 replay of attempt 014, observing candidate exceptions, computed violation and optimizer termination. Candidate source and official results are unchanged. Not supplied to Flint.",
+      "source_sha256": "b1fb54e2aa205ae374feaa4e3f8a56e5384d0a49b0fd4d7e5a97d7a40a0d9d67",
+      "worker_source": "\"\"\"Execute one candidate inside the OS sandbox; acceptance happens in the parent.\"\"\"\n\nimport importlib.util\nimport json\nimport resource\nimport sys\nimport time\nfrom pathlib import Path\n\ncpu_seconds = int(sys.argv[1])\nresource.setrlimit(resource.RLIMIT_CPU, (cpu_seconds, cpu_seconds))\nresource.setrlimit(resource.RLIMIT_FSIZE, (2 * 1024 * 1024, 2 * 1024 * 1024))\nspec = importlib.util.spec_from_file_location(\"candidate\", \"solver.py\")\ncandidate = importlib.util.module_from_spec(spec)\nspec.loader.exec_module(candidate)\n\ndef trace_candidate(frame, event, arg):\n    if frame.f_code.co_filename != candidate.__file__:\n        return None\n    if event == \"exception\":\n        kind, error, traceback = arg\n        print(json.dumps({\"event\": \"candidate_exception\", \"function\": frame.f_code.co_name,\n                          \"line\": frame.f_lineno, \"type\": kind.__name__, \"message\": str(error)}), flush=True)\n    if frame.f_code.co_name == \"_max_violation\" and event == \"return\":\n        print(json.dumps({\"event\": \"candidate_max_violation\", \"value\": arg}), flush=True)\n    if frame.f_code.co_name == \"_optimize26\":\n        if event == \"call\":\n            print(json.dumps({\"event\": \"entered_optimizer\"}), flush=True)\n        if event == \"return\" and \"res\" in frame.f_locals:\n            res = frame.f_locals[\"res\"]\n            print(json.dumps({\"event\": \"optimizer_result\", \"success\": bool(res.success),\n                              \"message\": str(res.message), \"iterations\": int(res.nit),\n                              \"evaluations\": int(res.nfev), \"objective\": float(res.fun),\n                              \"proposed_radius\": float(frame.f_locals[\"r_opt\"])}), flush=True)\n    return trace_candidate\nsys.settrace(trace_candidate)\n\ncircles = candidate.solve(26, int(sys.argv[2]), max(0, cpu_seconds - time.process_time() - 0.5))\nPath(\"packing.json\").write_text(json.dumps(circles, allow_nan=False))\n",
+      "seed": 0,
+      "result": {
+        "seed": 0,
+        "wall_seconds": 0.4403052090201527,
+        "cpu_seconds": 0.41774999999999995,
+        "exit_code": 0,
+        "timeout": false,
+        "stdout": "{\"event\": \"entered_optimizer\"}\n{\"event\": \"candidate_max_violation\", \"value\": 5.551115123125783e-17}\n{\"event\": \"optimizer_result\", \"success\": false, \"message\": \"ABNORMAL: \", \"iterations\": 0, \"evaluations\": 1134, \"objective\": -0.0936, \"proposed_radius\": 0.0936}\n",
+        "stderr": "",
+        "valid": true,
+        "score": 2.4336,
+        "max_violation": 5.551115123125783e-17,
+        "circles": [
+          [
+            0.0936,
+            0.0936,
+            0.0936
+          ],
+          [
+            0.2808,
+            0.0936,
+            0.0936
+          ],
+          [
+            0.468,
+            0.0936,
+            0.0936
+          ],
+          [
+            0.6552,
+            0.0936,
+            0.0936
+          ],
+          [
+            0.8424,
+            0.0936,
+            0.0936
+          ],
+          [
+            0.1872,
+            0.2557199555884469,
+            0.0936
+          ],
+          [
+            0.3744,
+            0.2557199555884469,
+            0.0936
+          ],
+          [
+            0.5616,
+            0.2557199555884469,
+            0.0936
+          ],
+          [
+            0.7488,
+            0.2557199555884469,
+            0.0936
+          ],
+          [
+            0.0936,
+            0.4178399111768938,
+            0.0936
+          ],
+          [
+            0.2808,
+            0.4178399111768938,
+            0.0936
+          ],
+          [
+            0.468,
+            0.4178399111768938,
+            0.0936
+          ],
+          [
+            0.6552,
+            0.4178399111768938,
+            0.0936
+          ],
+          [
+            0.8424,
+            0.4178399111768938,
+            0.0936
+          ],
+          [
+            0.1872,
+            0.5799598667653407,
+            0.0936
+          ],
+          [
+            0.3744,
+            0.5799598667653407,
+            0.0936
+          ],
+          [
+            0.5616,
+            0.5799598667653407,
+            0.0936
+          ],
+          [
+            0.7488,
+            0.5799598667653407,
+            0.0936
+          ],
+          [
+            0.0936,
+            0.7420798223537877,
+            0.0936
+          ],
+          [
+            0.2808,
+            0.7420798223537877,
+            0.0936
+          ],
+          [
+            0.468,
+            0.7420798223537877,
+            0.0936
+          ],
+          [
+            0.6552,
+            0.7420798223537877,
+            0.0936
+          ],
+          [
+            0.8424,
+            0.7420798223537877,
+            0.0936
+          ],
+          [
+            0.1872,
+            0.9041997779422346,
+            0.0936
+          ],
+          [
+            0.3744,
+            0.9041997779422346,
+            0.0936
+          ],
+          [
+            0.5616,
+            0.9041997779422346,
+            0.0936
+          ]
+        ],
+        "certificate": {
+          "exact_feasible": false,
+          "rational_sum": "1521/625"
+        }
+      }
+    }
+  ]
+}

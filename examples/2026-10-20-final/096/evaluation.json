@@ -1,0 +1,5 @@
+{
+  "valid": false,
+  "mean_score": null,
+  "error": "Expected exactly one complete Python code block"
+}

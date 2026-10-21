@@ -1,0 +1,108 @@
+I’d add a multiplicative calibration step on the training residuals to correct the systematic underprediction seen in the recent runs.
+
+```python
+import os
+os.environ["OMP_NUM_THREADS"] = "1"
+os.environ["OPENBLAS_NUM_THREADS"] = "1"
+os.environ["MKL_NUM_THREADS"] = "1"
+
+import numpy as np
+from sklearn.compose import ColumnTransformer
+from sklearn.ensemble import HistGradientBoostingRegressor
+from sklearn.linear_model import TweedieRegressor
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
+
+def solve(problem, seed, budget):
+    x = np.asarray(problem["train_x"], dtype=float)
+    xp = np.asarray(problem["predict_x"], dtype=float)
+    y = np.log1p(np.asarray(problem["train_y"], dtype=float))
+    names = list(problem["features"])
+
+    def temporal_features(values):
+        day = values[:, names.index("elapsed_days")]
+        return np.column_stack((
+            np.sin(2.0 * np.pi * day / 365.25),
+            np.cos(2.0 * np.pi * day / 365.25),
+            np.log1p(day),
+            day ** 2,
+        ))
+
+    trend_categorical = [
+        names.index(k) for k in (
+            "season", "yr", "mnth", "hr", "holiday", "weekday", "workingday", "weathersit", "weekend",
+        )
+    ]
+    residual_categorical = [
+        names.index(k) for k in (
+            "hr", "holiday", "weekday", "workingday", "weathersit", "weekend",
+        )
+    ]
+    numeric = [names.index(k) for k in ("temp", "atemp", "hum", "windspeed", "elapsed_days")]
+
+    trend_inputs = []
+    for values in (x, xp):
+        day = values[:, names.index("elapsed_days")]
+        trend_inputs.append(
+            np.column_stack(
+                (
+                    values,
+                    np.sin(2.0 * np.pi * day / 365.25),
+                    np.cos(2.0 * np.pi * day / 365.25),
+                    np.log1p(day),
+                    day ** 2,
+                )
+            )
+        )
+    trend_x, trend_xp = trend_inputs
+    numeric += [len(names), len(names) + 1, len(names) + 2, len(names) + 3]
+
+    trend = make_pipeline(
+        ColumnTransformer(
+            [
+                (
+                    "calendar",
+                    OneHotEncoder(handle_unknown="ignore", sparse_output=False),
+                    trend_categorical,
+                ),
+                ("numeric", StandardScaler(), numeric),
+            ]
+        ),
+        TweedieRegressor(power=1.5, alpha=1.0, max_iter=1000),
+    )
+    trend.fit(trend_x, y)
+
+    res_cols = [names.index(k) for k in (
+        "temp", "atemp", "hum", "windspeed", "hr", "holiday", "weekday", "workingday", "weathersit", "weekend",
+    )]
+    res_cat_pos = [res_cols.index(orig) for orig in residual_categorical]
+
+    res_x = x[:, res_cols]
+    res_xp = xp[:, res_cols]
+
+    residuals = HistGradientBoostingRegressor(
+        max_iter=100,
+        categorical_features=res_cat_pos,
+        early_stopping=False,
+        random_state=seed,
+    )
+    residuals.fit(res_x, y - trend.predict(trend_x))
+
+    train_pred_log = trend.predict(trend_x) + residuals.predict(res_x)
+    val_pred_log = trend.predict(trend_xp) + residuals.predict(res_xp)
+
+    train_counts = np.expm1(train_pred_log)
+    val_counts = np.expm1(val_pred_log)
+
+    best_c = 1.0
+    best_rmsle = np.inf
+    for c in np.linspace(0.8, 1.2, 41):
+        pred_log = np.log1p(c * train_counts)
+        rmsle = np.mean((pred_log - y) ** 2)
+        if rmsle < best_rmsle:
+            best_rmsle = rmsle
+            best_c = c
+
+    val_counts_cal = best_c * val_counts
+    return np.maximum(0, val_counts_cal).tolist()
+```

@@ -1,0 +1,758 @@
+{
+  "completed_attempts": 128,
+  "distinct_scored_candidates": 97,
+  "records": [
+    {
+      "attempt": "001",
+      "qualifies": true,
+      "score": 2.34,
+      "structural_sha256": "153abf91258adbfd4ffe835cebfa6df26088050b73ba368225b4330fff9ccd03"
+    },
+    {
+      "attempt": "002",
+      "qualifies": true,
+      "score": 2.34,
+      "structural_sha256": "ab3a15f84e6416767c66f8e93d8d2022e7ed86469cb8591e202e6a8a21d072db"
+    },
+    {
+      "attempt": "003",
+      "qualifies": true,
+      "score": 2.339999973999998,
+      "structural_sha256": "1ad0a68996637c3acc76a9454d8810beef4def4b5658c34ebac20884305ec98f"
+    },
+    {
+      "attempt": "004",
+      "qualifies": false,
+      "exclusion": "unsuccessful evaluation"
+    },
+    {
+      "attempt": "005",
+      "qualifies": true,
+      "score": 2.4179999739999998,
+      "structural_sha256": "de5c73d23fc6516c4f4202b3b90b484df7b8eaae569fa491d2be87debc3cb94f"
+    },
+    {
+      "attempt": "006",
+      "qualifies": true,
+      "score": 2.4204179739739997,
+      "structural_sha256": "ab6e8eb1e0af296ad372ae73a72e0242f674ab4d2a88934a2d51692ef7c58413"
+    },
+    {
+      "attempt": "007",
+      "qualifies": true,
+      "score": 2.4336,
+      "structural_sha256": "757da4b3b8f77b33336b382e67661bf40958dd90842fa6d64fa9b7863eb7ac72"
+    },
+    {
+      "attempt": "008",
+      "qualifies": true,
+      "score": 2.4336,
+      "structural_sha256": "9e06302ca6af59bf97b0a83f049140f9787da61b2b794dccf243ae307b8b2007"
+    },
+    {
+      "attempt": "009",
+      "qualifies": true,
+      "score": 2.4336,
+      "structural_sha256": "753dcfbbec87c5f9cc7aa7d5e339bcf5c3d913af7451a431546509a3ab2c0e57"
+    },
+    {
+      "attempt": "010",
+      "qualifies": true,
+      "score": 2.4336,
+      "structural_sha256": "d734ed91a4e69239ae3e5b759601799bfea9b4734ec203a34dcb03ea6c5cfa10"
+    },
+    {
+      "attempt": "011",
+      "qualifies": true,
+      "score": 2.4336,
+      "structural_sha256": "ed1e7c81abcd9a53b7ca7cd1b11871b53cf3656488ece519d4bb582caacdf4c6"
+    },
+    {
+      "attempt": "012",
+      "qualifies": true,
+      "score": 2.4336,
+      "structural_sha256": "21b756f2d9fbe28edcbf8fa2739b63dfb7ab9602b3ac7eb15e4c693a358160db"
+    },
+    {
+      "attempt": "013",
+      "qualifies": true,
+      "score": 2.4336,
+      "structural_sha256": "70d30a01bd42a4bb5c08f84355f5edbc79df03de0fa3026ad25ff26e09f7a111"
+    },
+    {
+      "attempt": "014",
+      "qualifies": true,
+      "score": 2.4336,
+      "structural_sha256": "d1075e610efd246ec35c675a306902c9038a0d7f13eab025d5ef88c3c34ff088"
+    },
+    {
+      "attempt": "015",
+      "qualifies": true,
+      "score": 2.4336,
+      "structural_sha256": "cedf32766f29f20d08cd7c52ebcafce55b739737a88df7040978f847567bbf6d"
+    },
+    {
+      "attempt": "016",
+      "qualifies": true,
+      "score": 2.4336,
+      "structural_sha256": "0017f0b6866a768d63f39dfd796d81727e5ac0a3dc6266895b37da2df1d3c133"
+    },
+    {
+      "attempt": "017",
+      "qualifies": true,
+      "score": 2.4362000000000004,
+      "structural_sha256": "490ce3c7a6bd04eecc29074c150bf4bc7f817b39ceda52a878b5f1b78db115c7"
+    },
+    {
+      "attempt": "018",
+      "qualifies": true,
+      "score": 2.4361999739999995,
+      "structural_sha256": "3bf80c0b4212fc19b732b4a08c0b049d31fbbf68a6922db9ae2c4a41806c9fc1"
+    },
+    {
+      "attempt": "019",
+      "qualifies": true,
+      "score": 2.4361999739999995,
+      "structural_sha256": "290ee5b858d0114c326c02417162ad81453215f88cb4b09ae58f7ea5a390123a"
+    },
+    {
+      "attempt": "020",
+      "qualifies": true,
+      "score": 2.4389662413796347,
+      "structural_sha256": "6fb7e77032592305a2fcba8410b26f9c246dab36ddd04179a94c0012f1b94690"
+    },
+    {
+      "attempt": "021",
+      "qualifies": false,
+      "exclusion": "unsuccessful evaluation"
+    },
+    {
+      "attempt": "022",
+      "qualifies": true,
+      "score": 2.5935864922020317,
+      "structural_sha256": "213d8b34e332bf433f12125b81bcd32c8d0e535920bade07e90ff1116c980089"
+    },
+    {
+      "attempt": "023",
+      "qualifies": true,
+      "score": 2.5935864922019305,
+      "structural_sha256": "45f19717388123bc09886b4d8e6b09aaba19fe0c358f3b38cbf3146fab14fb65"
+    },
+    {
+      "attempt": "024",
+      "qualifies": true,
+      "score": 2.5935864922021232,
+      "structural_sha256": "ada85cc06b3be89767605549583f90cc609ec92c7dfe7f79c6accac5af83d7bf"
+    },
+    {
+      "attempt": "025",
+      "qualifies": false,
+      "exclusion": "unsuccessful evaluation"
+    },
+    {
+      "attempt": "026",
+      "qualifies": true,
+      "score": 2.5935864922020317,
+      "structural_sha256": "478322009353c0d78e5d9a86976cd629bc3f1ff208d495f37cfcd91071a3ced9"
+    },
+    {
+      "attempt": "027",
+      "qualifies": false,
+      "exclusion": "unsuccessful evaluation"
+    },
+    {
+      "attempt": "028",
+      "qualifies": true,
+      "score": 2.5960608578498348,
+      "structural_sha256": "29a6cedf2f337366a1574cdbd4b0efe4d44c6dfce3271baf75d5e145de0a652f"
+    },
+    {
+      "attempt": "029",
+      "qualifies": true,
+      "score": 2.5960608578498348,
+      "structural_sha256": "632298c27e302aa9d922c1f623e78730fea6795c0d5ab5e3833a569071e35531"
+    },
+    {
+      "attempt": "030",
+      "qualifies": true,
+      "score": 2.5960608578498348,
+      "structural_sha256": "3b7f1b0d68af8e92e6a5999e7e42d9a9d111357d97b6eae9361de4fbe09898fc"
+    },
+    {
+      "attempt": "031",
+      "qualifies": true,
+      "score": 2.5960608578498348,
+      "structural_sha256": "c435b11c08c525525fdd23fd1c917b1c540a14501aace47bd4579f90ed16655c"
+    },
+    {
+      "attempt": "032",
+      "qualifies": true,
+      "score": 2.596060857849805,
+      "structural_sha256": "1bcbdc956d471f62e04e39d2a05bd9de4e41c08b8b6f3d4e9fa8069dbb88c4a5"
+    },
+    {
+      "attempt": "033",
+      "qualifies": true,
+      "score": 2.596060857849589,
+      "structural_sha256": "9ad806a2e3c2e21ab238030e70b182804660d968dddab41def4a25daa711f999"
+    },
+    {
+      "attempt": "034",
+      "qualifies": true,
+      "score": 2.596060857849589,
+      "structural_sha256": "62fbaa9e86dc4d103774d5b0a023eb529ac6971fb8553700f4d4870f8363b6eb"
+    },
+    {
+      "attempt": "035",
+      "qualifies": true,
+      "score": 2.5960608578498348,
+      "structural_sha256": "5a4ff1076135658976caca4a7dbbd81def78ce81401fec76c62f4313977b53ff"
+    },
+    {
+      "attempt": "036",
+      "qualifies": true,
+      "score": 2.5960608578498348,
+      "structural_sha256": "05a2e5c5491dd32d77d8dc782e371324ec4416de6e0ed1f8f8e683d6c76a005a"
+    },
+    {
+      "attempt": "037",
+      "qualifies": true,
+      "score": 2.604841919693962,
+      "structural_sha256": "b714a73829f541c0097f81575972a656d0eed5ca102ecae9739e9e6e90152a66"
+    },
+    {
+      "attempt": "038",
+      "qualifies": true,
+      "score": 2.604841919693962,
+      "structural_sha256": "64061a1fcb70fdd17334a60c1d7520aa8e8eb1556c28c1d73b52b74d7b256977"
+    },
+    {
+      "attempt": "039",
+      "qualifies": true,
+      "score": 2.604841919693962,
+      "structural_sha256": "ceeb4bc1cbaf8fd965a2c276436926a427729017be22c491303f10226ba61ff4"
+    },
+    {
+      "attempt": "040",
+      "qualifies": true,
+      "score": 2.604841919693962,
+      "structural_sha256": "7cfe04c33bf9bf4b352d72e3f254840cbec1b77450f7e0d2803f9525f5d2e747"
+    },
+    {
+      "attempt": "041",
+      "qualifies": true,
+      "score": 2.604841919693962,
+      "structural_sha256": "c9879f41e8c5400cda050574bb3a5b8f735e88a40f790161ba196bc7e7790532"
+    },
+    {
+      "attempt": "042",
+      "qualifies": true,
+      "score": 2.6048419196939188,
+      "structural_sha256": "c9c2544b5cdbdaf7d1fed1a1421d480c9dc5292688479f9f947b811ae8ec7327"
+    },
+    {
+      "attempt": "043",
+      "qualifies": true,
+      "score": 2.6048419196939188,
+      "structural_sha256": "d14b5bd578c1a3c5a09c2d3baf67313b3b84d629865552086893923522a4a2f1"
+    },
+    {
+      "attempt": "044",
+      "qualifies": true,
+      "score": 2.6048419196939188,
+      "structural_sha256": "d9570ce6b3296a748d36f308a8dab9cfa3fa3efc2ae533b399aaa56bc81a3752"
+    },
+    {
+      "attempt": "045",
+      "qualifies": true,
+      "score": 2.6048419196939188,
+      "structural_sha256": "8458cbcd27e15b75ce10d5a6de9f2f9b976d0f302ef3bc2f877d5938f8374348"
+    },
+    {
+      "attempt": "046",
+      "qualifies": true,
+      "score": 2.604841919694004,
+      "structural_sha256": "6e8e61f28bcae5b5bcac20f6dc906d051df560ebcced24ff736adbb288f3906c"
+    },
+    {
+      "attempt": "047",
+      "qualifies": true,
+      "score": 2.604841919694004,
+      "structural_sha256": "4fd1e3859738626e6da76df55e2df45b06c22ca10726d6723390cba4b06285db"
+    },
+    {
+      "attempt": "048",
+      "qualifies": true,
+      "score": 2.604841919694004,
+      "structural_sha256": "93cacf09a1f87d4fd07bf6b39b6df381095a9ddbe79c3db5c19268b1255c3984"
+    },
+    {
+      "attempt": "049",
+      "qualifies": true,
+      "score": 2.6048419199207653,
+      "structural_sha256": "16a5ff56ce0e533f6ba9dcbd082cd2333e2662baf40a7794a2bcf03987ea8ff9"
+    },
+    {
+      "attempt": "050",
+      "qualifies": true,
+      "score": 2.6048419199207653,
+      "structural_sha256": "9093f5efd1bd3aa7d58a9d07339677ef1fef9b0e40055fc54fa86e1ef7dbb3bc"
+    },
+    {
+      "attempt": "051",
+      "qualifies": true,
+      "score": 2.6048419196939188,
+      "structural_sha256": "ccbe256b8fe7fd3f79b603eaabfa288b03096cef6014d164e193dc8150f1edb0"
+    },
+    {
+      "attempt": "052",
+      "qualifies": true,
+      "score": 2.608413086692701,
+      "structural_sha256": "e95b8681fb4601894305cf8be6fd910db477a43ad01697777bea6b64021f8aad"
+    },
+    {
+      "attempt": "053",
+      "qualifies": false,
+      "exclusion": "unsuccessful evaluation"
+    },
+    {
+      "attempt": "054",
+      "qualifies": false,
+      "exclusion": "unsuccessful evaluation"
+    },
+    {
+      "attempt": "055",
+      "qualifies": false,
+      "exclusion": "unsuccessful evaluation"
+    },
+    {
+      "attempt": "056",
+      "qualifies": false,
+      "exclusion": "unsuccessful evaluation"
+    },
+    {
+      "attempt": "057",
+      "qualifies": true,
+      "score": 2.6136288054827816,
+      "structural_sha256": "938a59c3ebb7e3e32eeb14d1d416686e8dd29c20290cc5f90d99cb24cc11dcf8"
+    },
+    {
+      "attempt": "058",
+      "qualifies": false,
+      "exclusion": "unsuccessful evaluation"
+    },
+    {
+      "attempt": "059",
+      "qualifies": false,
+      "exclusion": "unsuccessful evaluation"
+    },
+    {
+      "attempt": "060",
+      "qualifies": false,
+      "exclusion": "unsuccessful evaluation"
+    },
+    {
+      "attempt": "061",
+      "qualifies": true,
+      "score": 2.6153176907707416,
+      "structural_sha256": "f71b7ce95f0cc6810ca04e237d48a4007f2e739ba761de62e7f3153a4d51baee"
+    },
+    {
+      "attempt": "062",
+      "qualifies": true,
+      "score": 2.6136288054827794,
+      "structural_sha256": "8f6dccd9d7fa6dbaee448deec836be4e3d5c0d1f433b9a8ef7636cedae857fff"
+    },
+    {
+      "attempt": "063",
+      "qualifies": false,
+      "exclusion": "unsuccessful evaluation"
+    },
+    {
+      "attempt": "064",
+      "qualifies": false,
+      "exclusion": "unsuccessful evaluation"
+    },
+    {
+      "attempt": "065",
+      "qualifies": false,
+      "exclusion": "unsuccessful evaluation"
+    },
+    {
+      "attempt": "066",
+      "qualifies": true,
+      "score": 2.6153176907707416,
+      "structural_sha256": "f621687cbfc13d56349c7c327c2fad9693cacdcb8f016824ba4b9c5876f19367"
+    },
+    {
+      "attempt": "067",
+      "qualifies": true,
+      "score": 2.6153176907707096,
+      "structural_sha256": "3eedcde5351272c69a40160de9da73a22eb574441dd1e2c96b323a29544740ef"
+    },
+    {
+      "attempt": "068",
+      "qualifies": false,
+      "exclusion": "unsuccessful evaluation"
+    },
+    {
+      "attempt": "069",
+      "qualifies": true,
+      "score": 2.6153176907707416,
+      "structural_sha256": "a8de0fdab7dbdf895bcff15f5cb6a15d26a29311982d9bf28e0b768ac35b8887"
+    },
+    {
+      "attempt": "070",
+      "qualifies": true,
+      "score": 2.622324086414814,
+      "structural_sha256": "f5f4d9849cba703e6fbd0fa7788a89c154cbc1b8bdbc54f690d791a2edf2174c"
+    },
+    {
+      "attempt": "071",
+      "qualifies": true,
+      "score": 2.622324086414814,
+      "structural_sha256": "ad6ffb25df900ae7e74aae8fa3a9f9eb0a444a0b92ac921143b855a8b603d06e"
+    },
+    {
+      "attempt": "072",
+      "qualifies": true,
+      "score": 2.6173216822640772,
+      "structural_sha256": "1e9f8a0c74cc37cc1bceb731bacbb76a32ad039710ac15f5810faecf9a4390b5"
+    },
+    {
+      "attempt": "073",
+      "qualifies": true,
+      "score": 2.6223240864149635,
+      "structural_sha256": "f4c3228cf15761d5857adab207c50eb17ad8d03f750807bae450530fe8c071ab"
+    },
+    {
+      "attempt": "074",
+      "qualifies": false,
+      "exclusion": "unsuccessful evaluation"
+    },
+    {
+      "attempt": "075",
+      "qualifies": false,
+      "exclusion": "unsuccessful evaluation"
+    },
+    {
+      "attempt": "076",
+      "qualifies": true,
+      "score": 2.622324086414814,
+      "structural_sha256": "d12eeacdb75be6a9d1b72bfb7f528e6a85e05088fa1354d16aa85cc9ea09e2e3"
+    },
+    {
+      "attempt": "077",
+      "qualifies": false,
+      "score": 2.622324086414814,
+      "structural_sha256": "d12eeacdb75be6a9d1b72bfb7f528e6a85e05088fa1354d16aa85cc9ea09e2e3",
+      "exclusion": "duplicate implementation",
+      "duplicate_of": "076"
+    },
+    {
+      "attempt": "078",
+      "qualifies": true,
+      "score": 2.6223240864149635,
+      "structural_sha256": "a802e1e2bc98ab27f7ad8f75c88764ff4f043ab81778724695f2b384d503af65"
+    },
+    {
+      "attempt": "079",
+      "qualifies": false,
+      "score": 2.6223240864149635,
+      "structural_sha256": "a802e1e2bc98ab27f7ad8f75c88764ff4f043ab81778724695f2b384d503af65",
+      "exclusion": "duplicate implementation",
+      "duplicate_of": "078"
+    },
+    {
+      "attempt": "080",
+      "qualifies": true,
+      "score": 2.6223240864149635,
+      "structural_sha256": "45829e0811abfa924326175b33602d9e309658e7772722ac5a138f4bacd77e9d"
+    },
+    {
+      "attempt": "081",
+      "qualifies": true,
+      "score": 2.6223240864149635,
+      "structural_sha256": "0f3c80cbb31b7612314c384efec77f3cd45f8ddf48b92fde965d3a48e0ceab4e"
+    },
+    {
+      "attempt": "082",
+      "qualifies": true,
+      "score": 2.6226074027038466,
+      "structural_sha256": "8bf936803db8c0ea6365c3c3962d2d1292f897f5b931fd2f1fa9df529a2480ef"
+    },
+    {
+      "attempt": "083",
+      "qualifies": true,
+      "score": 2.6226074027038466,
+      "structural_sha256": "714de24fdaa59f0e61912a825b31c2bb18db647a3d5b181fedb8eb8355e82958"
+    },
+    {
+      "attempt": "084",
+      "qualifies": true,
+      "score": 2.6226074027038466,
+      "structural_sha256": "7f2590ec8cbc5ed378ce1c4db45263ead5e522f9c1dc78c2d7b8464ac2dc30a9"
+    },
+    {
+      "attempt": "085",
+      "qualifies": false,
+      "exclusion": "unsuccessful evaluation"
+    },
+    {
+      "attempt": "086",
+      "qualifies": true,
+      "score": 2.6226074027038466,
+      "structural_sha256": "b698063978e071ca41521ad4e940ba3fa077a0d7cb6c51080c3468fb1b4d21d2"
+    },
+    {
+      "attempt": "087",
+      "qualifies": true,
+      "score": 2.6226074027038466,
+      "structural_sha256": "d3341870eaf10c07b4f2fec4760d5ccc16c278a0416a83353ace60b5a1e4f538"
+    },
+    {
+      "attempt": "088",
+      "qualifies": true,
+      "score": 2.6226074027038466,
+      "structural_sha256": "8174521773f65d00bf8ed1c00a5c2986814478105bcf7fda7d4872d6f912a958"
+    },
+    {
+      "attempt": "089",
+      "qualifies": false,
+      "score": 2.6226074027038466,
+      "structural_sha256": "8174521773f65d00bf8ed1c00a5c2986814478105bcf7fda7d4872d6f912a958",
+      "exclusion": "duplicate implementation",
+      "duplicate_of": "088"
+    },
+    {
+      "attempt": "090",
+      "qualifies": true,
+      "score": 2.6226074027038466,
+      "structural_sha256": "38a03f796205116ffabfb10974b2ace2bc4a6a6a2bf017a4f3878a369768feb2"
+    },
+    {
+      "attempt": "091",
+      "qualifies": true,
+      "score": 2.6226074027038466,
+      "structural_sha256": "437ce12ef6c50d86243cf129401e4de14fdf8a54252ffc723f2eb9991378af28"
+    },
+    {
+      "attempt": "092",
+      "qualifies": false,
+      "exclusion": "unsuccessful evaluation"
+    },
+    {
+      "attempt": "093",
+      "qualifies": true,
+      "score": 2.6226074027037467,
+      "structural_sha256": "f071a7db50d02015e5ebfb2e20783c52b56ff9c98c6d975a2713a9a16b310672"
+    },
+    {
+      "attempt": "094",
+      "qualifies": true,
+      "score": 2.6226074027037467,
+      "structural_sha256": "bc061d035457ae99ebad8c20ac58d2257fe365bc00002cacf723768cec8b92ae"
+    },
+    {
+      "attempt": "095",
+      "qualifies": true,
+      "score": 2.6226074027037467,
+      "structural_sha256": "e848e8500728b14114455b36d7f87e861e92cd27aac11f2203bcd534bf53485e"
+    },
+    {
+      "attempt": "096",
+      "qualifies": false,
+      "exclusion": "unsuccessful evaluation"
+    },
+    {
+      "attempt": "097",
+      "qualifies": true,
+      "score": 2.6226074027038466,
+      "structural_sha256": "8cbe48e3da1ba5cd1d39fcec8dbc0a94064f31a7208658faea88f91233aa99d5"
+    },
+    {
+      "attempt": "098",
+      "qualifies": true,
+      "score": 2.6226074027038466,
+      "structural_sha256": "afa312b55eded82c30a1ec1613b78304e50fa08036f94c728b965a345661b760"
+    },
+    {
+      "attempt": "099",
+      "qualifies": true,
+      "score": 2.6226074027038466,
+      "structural_sha256": "2ad6adedda0eebb832bca1c8bb64ffc188dba0b9803cc195693edc72a1ec263e"
+    },
+    {
+      "attempt": "100",
+      "qualifies": false,
+      "exclusion": "unsuccessful evaluation"
+    },
+    {
+      "attempt": "101",
+      "qualifies": true,
+      "score": 2.6226074027038466,
+      "structural_sha256": "760f2eee7d73e557b8670cc98991885b5c9d8916d8d2a2b598f901577bcf4ed6"
+    },
+    {
+      "attempt": "102",
+      "qualifies": true,
+      "score": 2.6226074027038466,
+      "structural_sha256": "2fec89e8c9192c8da939a66714d4509cebd2676540ff885d1cc1bd0672f75a46"
+    },
+    {
+      "attempt": "103",
+      "qualifies": true,
+      "score": 2.6226074027038466,
+      "structural_sha256": "f3f377551c8ea030750ef5ed027cea47e6e39c6bb33e8e94932d99b5ec0d8461"
+    },
+    {
+      "attempt": "104",
+      "qualifies": false,
+      "exclusion": "unsuccessful evaluation"
+    },
+    {
+      "attempt": "105",
+      "qualifies": true,
+      "score": 2.6200666696664006,
+      "structural_sha256": "a35605cc933e3e9f20eeb71a31e1f206094d77f62bb5a113dde1c3030e309d31"
+    },
+    {
+      "attempt": "106",
+      "qualifies": false,
+      "exclusion": "unsuccessful evaluation"
+    },
+    {
+      "attempt": "107",
+      "qualifies": false,
+      "exclusion": "unsuccessful evaluation"
+    },
+    {
+      "attempt": "108",
+      "qualifies": true,
+      "score": 2.6226074027038466,
+      "structural_sha256": "8b26ee6e984f9252b2caf289e23e3e425c9c09a1913776ef5017a2943814b11b"
+    },
+    {
+      "attempt": "109",
+      "qualifies": true,
+      "score": 2.6254287224004713,
+      "structural_sha256": "c2fce4e2f6bd0b91892f5b06da0c021ec15e787788ad720066ac0a38f4e80df2"
+    },
+    {
+      "attempt": "110",
+      "qualifies": true,
+      "score": 2.6254287224004713,
+      "structural_sha256": "c3896ee8af93f67c31a8ea9d6387b176c98f7e4c6d6dacbf62c03c755ad15ba3"
+    },
+    {
+      "attempt": "111",
+      "qualifies": false,
+      "exclusion": "unsuccessful evaluation"
+    },
+    {
+      "attempt": "112",
+      "qualifies": true,
+      "score": 2.6254287224004713,
+      "structural_sha256": "9f26b85f1395461d869891ac8e610c5ecb50ab10120ba2b6672cea4e315722ae"
+    },
+    {
+      "attempt": "113",
+      "qualifies": false,
+      "exclusion": "unsuccessful evaluation"
+    },
+    {
+      "attempt": "114",
+      "qualifies": true,
+      "score": 2.6254287224004713,
+      "structural_sha256": "343af7cf993612aba0246e2c4923df3d43c5408a654ff4e76e99930de73d5a18"
+    },
+    {
+      "attempt": "115",
+      "qualifies": true,
+      "score": 2.6254287224004713,
+      "structural_sha256": "bee897a48d91214624b8c5cc21eb460cb91819c1580ac9b64f3fd17d5b28a4a2"
+    },
+    {
+      "attempt": "116",
+      "qualifies": true,
+      "score": 2.6254287224004713,
+      "structural_sha256": "eaee67a89b608159eff00784db6bce832bd7edb8e289b877a14bec8f56b489ee"
+    },
+    {
+      "attempt": "117",
+      "qualifies": true,
+      "score": 2.6254287224004713,
+      "structural_sha256": "360706d8d8d2346ae9856576948bb84c6576ee92f25d17b9a62cf2d18bf3e04e"
+    },
+    {
+      "attempt": "118",
+      "qualifies": true,
+      "score": 2.6294084788084837,
+      "structural_sha256": "cdf69023b069fccd9deb3de5186646988efdb87ba4b0077168de258ccebac66b"
+    },
+    {
+      "attempt": "119",
+      "qualifies": true,
+      "score": 2.6294084788084837,
+      "structural_sha256": "457c67b2193f2be938c0edceeebe1aeefa3ea010a6ca540e2975664370e4edbc"
+    },
+    {
+      "attempt": "120",
+      "qualifies": true,
+      "score": 2.6294084788084837,
+      "structural_sha256": "46a24a5abc02ca5ecc21a5f7143df116589f299676e133264819f3c95f447552"
+    },
+    {
+      "attempt": "121",
+      "qualifies": true,
+      "score": 2.6294084788084837,
+      "structural_sha256": "6630950eaef8c9ee49f3d6660336a5fc78614811c6cc9290dd53f9ee33bf5cfc"
+    },
+    {
+      "attempt": "122",
+      "qualifies": false,
+      "exclusion": "unsuccessful evaluation"
+    },
+    {
+      "attempt": "123",
+      "qualifies": true,
+      "score": 2.6272798509896096,
+      "structural_sha256": "9bd6d204089dd7408f3d1c641cbd222c5946eb7e4e19b09bd19929da2a4dc716"
+    },
+    {
+      "attempt": "124",
+      "qualifies": true,
+      "score": 1.029648883475369,
+      "structural_sha256": "e8d7b0dbe5dfc2850c41e29c5fb7079bd768d85b17a07d45e3540bbabec4878e"
+    },
+    {
+      "attempt": "125",
+      "qualifies": true,
+      "score": 1.029648883475369,
+      "structural_sha256": "39f2b1ea8a6fb81a074bfeb907c17b9cde4319d59c86e6cb62ec8afa7bf1158b"
+    },
+    {
+      "attempt": "126",
+      "qualifies": false,
+      "score": 1.029648883475369,
+      "structural_sha256": "39f2b1ea8a6fb81a074bfeb907c17b9cde4319d59c86e6cb62ec8afa7bf1158b",
+      "exclusion": "duplicate implementation",
+      "duplicate_of": "125"
+    },
+    {
+      "attempt": "127",
+      "qualifies": true,
+      "score": 2.6272798509896096,
+      "structural_sha256": "5802d4d856aa9d7f8c0974ae6c49f0230ee74ea0d7f2ff2bf25960eb162c3aa7"
+    },
+    {
+      "attempt": "128",
+      "qualifies": true,
+      "score": 2.6272798509896096,
+      "structural_sha256": "330e4d8693f78a57dca7fb863da2c89d77fa23079755595abfce76ae34023eec"
+    }
+  ],
+  "target": 100,
+  "status": "stopped",
+  "stop_reason": "Closed for wrap-up after the active attempt finished; original target not reached."
+}

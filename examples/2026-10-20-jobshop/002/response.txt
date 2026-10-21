@@ -1,0 +1,54 @@
+I’d try one improvement: make the greedy choice critical-path aware. Instead of purely choosing the operation with the earliest finish time, prefer the job with the longest remaining work, then break ties by earliest finish. This should reduce starvation of longer/planned critical jobs.
+
+```python
+def solve(problem, seed, budget):
+    jobs = problem["jobs"]
+    n_machines = problem.get("machines", 20)
+    n_jobs = len(jobs)
+
+    # Suffix sums of remaining durations for each job.
+    suffix = []
+    for ops in jobs:
+        s = [0.0] * (len(ops) + 1)
+        for k in range(len(ops) - 1, -1, -1):
+            s[k] = s[k + 1] + ops[k][1]
+        suffix.append(s)
+
+    job_ready = [0.0] * n_jobs
+    machine_ready = [0.0] * n_machines
+    next_op = [0] * n_jobs
+    seq = []
+    total = sum(len(ops) for ops in jobs)
+
+    while len(seq) < total:
+        best_key = None
+        best_j = -1
+        best_m = -1
+        best_finish = 0.0
+
+        for j, ops in enumerate(jobs):
+            if next_op[j] >= len(ops):
+                continue
+
+            m, d = ops[next_op[j]]
+            start = max(job_ready[j], machine_ready[m])
+            finish = start + d
+            rem = suffix[j][next_op[j]]  # remaining work for this job
+
+            # Improvement: prioritize longest remaining critical path,
+            # then earliest finish, then shortest duration, then job index.
+            key = (-rem, finish, d, j)
+
+            if best_key is None or key < best_key:
+                best_key = key
+                best_j = j
+                best_m = m
+                best_finish = finish
+
+        job_ready[best_j] = best_finish
+        machine_ready[best_m] = best_finish
+        next_op[best_j] += 1
+        seq.append(best_j)
+
+    return seq
+```

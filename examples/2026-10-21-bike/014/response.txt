@@ -1,0 +1,78 @@
+I’d try adding a cubic spline basis for `elapsed_days` to the Poisson trend, instead of relying only on sine/cosine and quadratic time terms. This gives the trend more flexibility to model nonlinear temporal dynamics before the boosted residual stage.
+
+```python
+"""Fit Poisson time/calendar trend plus boosted residuals with spline time trend."""
+
+import numpy as np
+from sklearn.compose import ColumnTransformer
+from sklearn.ensemble import HistGradientBoostingRegressor
+from sklearn.linear_model import PoissonRegressor
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import OneHotEncoder, StandardScaler, SplineTransformer
+
+
+def solve(problem, seed, budget):
+    x = np.asarray(problem["train_x"], dtype=float)
+    xp = np.asarray(problem["predict_x"], dtype=float)
+    y = np.log1p(np.asarray(problem["train_y"], dtype=float))
+    names = list(problem["features"])
+
+    trend_categorical = [
+        names.index(k) for k in (
+            "season", "yr", "mnth", "hr", "holiday", "weekday", "workingday",
+            "weathersit", "weekend",
+        )
+    ]
+    residual_categorical = [
+        names.index(k) for k in (
+            "hr", "holiday", "weekday", "workingday", "weathersit", "weekend",
+        )
+    ]
+    numeric = [names.index(k) for k in ("temp", "atemp", "hum", "windspeed", "elapsed_days")]
+
+    elapsed_idx = names.index("elapsed_days")
+    day = x[:, elapsed_idx]
+    dayp = xp[:, elapsed_idx]
+
+    sin_t = np.sin(2 * np.pi * day / 365.25)
+    cos_t = np.cos(2 * np.pi * day / 365.25)
+    day2_t = day ** 2
+    sin_tp = np.sin(2 * np.pi * dayp / 365.25)
+    cos_tp = np.cos(2 * np.pi * dayp / 365.25)
+    day2_tp = dayp ** 2
+
+    spline = SplineTransformer(n_knots=5, degree=3, include_bias=False)
+    spline.fit(x[:, elapsed_idx].reshape(-1, 1))
+    spline_train = spline.transform(x[:, elapsed_idx].reshape(-1, 1))
+    spline_pred = spline.transform(xp[:, elapsed_idx].reshape(-1, 1))
+
+    trend_x = np.column_stack((x, sin_t, cos_t, day2_t, spline_train))
+    trend_xp = np.column_stack((xp, sin_tp, cos_tp, day2_tp, spline_pred))
+    numeric += [len(names), len(names) + 1, len(names) + 2, len(names) + 3]
+
+    trend = make_pipeline(
+        ColumnTransformer(
+            [
+                (
+                    "calendar",
+                    OneHotEncoder(handle_unknown="ignore", sparse_output=False),
+                    trend_categorical,
+                ),
+                ("numeric", StandardScaler(), numeric),
+            ]
+        ),
+        PoissonRegressor(alpha=1.0, max_iter=1000),
+    )
+    trend.fit(trend_x, y)
+
+    residuals = HistGradientBoostingRegressor(
+        max_iter=100,
+        categorical_features=residual_categorical,
+        early_stopping=False,
+        random_state=seed,
+    )
+    residuals.fit(x, y - trend.predict(trend_x))
+
+    prediction = trend.predict(trend_xp) + residuals.predict(xp)
+    return np.expm1(np.maximum(0.0, prediction)).tolist()
+```

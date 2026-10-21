@@ -1,0 +1,37 @@
+{
+  "source_sha256": "ab46dc50bbbf60fdea7cd1d689c7a9240081398d924561d5a9754e6022a417cc",
+  "valid": false,
+  "mean_score": null,
+  "trials": [
+    {
+      "seed": 0,
+      "wall_seconds": 0.1292527080513537,
+      "cpu_seconds": 0.08439,
+      "exit_code": 1,
+      "timeout": false,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"<WORKSPACE>/worker.py\", line 16, in <module>\n    circles = candidate.solve(26, int(sys.argv[2]), max(0, cpu_seconds - time.process_time() - 0.5))\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<WORKSPACE>/solver.py\", line 97, in solve\n    if T > 1e-12 and rng.random() < math.exp((nr - cur_r) / T):\n                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^\nOverflowError: math range error\n",
+      "valid": false
+    },
+    {
+      "seed": 1,
+      "wall_seconds": 0.13037216605152935,
+      "cpu_seconds": 0.10425699999999999,
+      "exit_code": 1,
+      "timeout": false,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"<WORKSPACE>/worker.py\", line 16, in <module>\n    circles = candidate.solve(26, int(sys.argv[2]), max(0, cpu_seconds - time.process_time() - 0.5))\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<WORKSPACE>/solver.py\", line 97, in solve\n    if T > 1e-12 and rng.random() < math.exp((nr - cur_r) / T):\n                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^\nOverflowError: math range error\n",
+      "valid": false
+    },
+    {
+      "seed": 2,
+      "wall_seconds": 0.13222250004764646,
+      "cpu_seconds": 0.11332800000000004,
+      "exit_code": 1,
+      "timeout": false,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"<WORKSPACE>/worker.py\", line 16, in <module>\n    circles = candidate.solve(26, int(sys.argv[2]), max(0, cpu_seconds - time.process_time() - 0.5))\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<WORKSPACE>/solver.py\", line 97, in solve\n    if T > 1e-12 and rng.random() < math.exp((nr - cur_r) / T):\n                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^\nOverflowError: math range error\n",
+      "valid": false
+    }
+  ]
+}

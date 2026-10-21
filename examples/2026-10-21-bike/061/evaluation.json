@@ -1,0 +1,17 @@
+{
+  "source_sha256": "8ae143ef8a548fca99199fbba23344538b7b892b22adfa10a80d5b3cc1059734",
+  "valid": false,
+  "mean_score": null,
+  "trials": [
+    {
+      "seed": 0,
+      "wall_seconds": 0.8430891670286655,
+      "cpu_seconds": 0.6533440000000024,
+      "exit_code": 1,
+      "timeout": false,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"<WORKSPACE>/worker.py\", line 17, in <module>\n    solution = candidate.solve(\n               ^^^^^^^^^^^^^^^^\n  File \"<WORKSPACE>/solver.py\", line 23, in solve\n    trend_num = [idx[k] for k in (\"temp\", \"atemp\", \"hum\", \"windspeed\", \"elapsed\")]\n                 ~~~^^^\nKeyError: 'elapsed'\n",
+      "valid": false
+    }
+  ]
+}

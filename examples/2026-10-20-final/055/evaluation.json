@@ -1,0 +1,40 @@
+{
+  "source_sha256": "f81c840df08fb00c1e3ad26825a31466a0f94b0b03340ad83cb303ada5d4b880",
+  "valid": false,
+  "mean_score": null,
+  "trials": [
+    {
+      "seed": 0,
+      "wall_seconds": 2.199919500038959,
+      "cpu_seconds": 2.059576,
+      "exit_code": 0,
+      "timeout": false,
+      "stdout": "",
+      "stderr": "",
+      "valid": false,
+      "error": "Expected 26 circles"
+    },
+    {
+      "seed": 1,
+      "wall_seconds": 2.2119477500673383,
+      "cpu_seconds": 2.1936920000000004,
+      "exit_code": 0,
+      "timeout": false,
+      "stdout": "",
+      "stderr": "",
+      "valid": false,
+      "error": "Expected 26 circles"
+    },
+    {
+      "seed": 2,
+      "wall_seconds": 1.9137171659385785,
+      "cpu_seconds": 1.8988639999999999,
+      "exit_code": 0,
+      "timeout": false,
+      "stdout": "",
+      "stderr": "",
+      "valid": false,
+      "error": "Expected 26 circles"
+    }
+  ]
+}

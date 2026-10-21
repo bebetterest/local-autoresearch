@@ -1,0 +1,14 @@
+{
+  "started_at": "2026-10-19T23:11:23.501832+00:00",
+  "target": 100,
+  "runtime": {
+    "engine": "mlx",
+    "version": "0.1.0-dual-mac.6",
+    "revision": "flint-int4-preview-20261016",
+    "runtime_sha256": "21721c9fc8853108809fe5fb3174442ca16006fa8c749aacfa69879aed66b83f",
+    "profile_sha256": "a3dea83dd36367bdf6750d2b4bc415d47eb696b721a5333acd3fe0a9fd4c455f",
+    "context": 262144
+  },
+  "controller_sha256": "01d269bbaa9e53a35cd5349b43ac3705c52affd2c3d9fa91511132ec65c42a31",
+  "counting": "Valid scores on all search seeds and a distinct Python AST, excluding docstrings. Baseline, failures and duplicates do not count. Distinct code does not establish scientific novelty."
+}

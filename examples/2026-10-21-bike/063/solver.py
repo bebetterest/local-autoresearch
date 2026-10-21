@@ -1,0 +1,64 @@
+import os
+os.environ["OMP_NUM_THREADS"] = "1"
+os.environ["MKL_NUM_THREADS"] = "1"
+
+import numpy as np
+from sklearn.compose import ColumnTransformer
+from sklearn.ensemble import HistGradientBoostingRegressor
+from sklearn.linear_model import TweedieRegressor
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
+
+def solve(problem, seed, budget):
+    x = np.asarray(problem["train_x"], dtype=float)
+    xp = np.asarray(problem["predict_x"], dtype=float)
+    y = np.log1p(np.asarray(problem["train_y"], dtype=float))
+    names = list(problem["features"])
+    idx = {k: i for i, k in enumerate(names)}
+    elapsed = idx["elapsed_days"]
+
+    trend_categorical = [idx[k] for k in (
+        "season", "yr", "mnth", "hr", "holiday", "weekday", "workingday", "weathersit", "weekend",
+    )]
+    trend_numeric = [idx[k] for k in ("temp", "atemp", "hum", "windspeed", "elapsed_days")]
+
+    def add_time_features(arr):
+        day = arr[:, elapsed].astype(float)
+        base = arr.shape[1]
+        out = np.empty((arr.shape[0], base + 4), dtype=float)
+        out[:, :base] = arr
+        out[:, base] = np.sin(2 * np.pi * day / 365.25)
+        out[:, base + 1] = np.cos(2 * np.pi * day / 365.25)
+        out[:, base + 2] = np.log1p(day)
+        out[:, base + 3] = day ** 2
+        return out
+
+    tx = add_time_features(x)
+    txp = add_time_features(xp)
+    n_base = x.shape[1]
+    trend_numeric_full = trend_numeric + [n_base, n_base + 1, n_base + 2, n_base + 3]
+
+    trend = make_pipeline(
+        ColumnTransformer([
+            ("calendar", OneHotEncoder(handle_unknown="ignore", sparse_output=False), trend_categorical),
+            ("numeric", StandardScaler(), trend_numeric_full),
+        ]),
+        TweedieRegressor(power=1.5, alpha=1.0, max_iter=1000),
+    )
+    trend.fit(tx, y)
+    trend_train_pred = trend.predict(tx)
+    trend_pred_x = trend.predict(txp)
+
+    res_cols = [idx[k] for k in (
+        "temp", "atemp", "hum", "windspeed", "hr", "holiday", "weekday", "workingday", "weathersit", "weekend", "elapsed_days",
+    )]
+    res_cat = [res_cols.index(idx[k]) for k in ["hr", "holiday", "weekday", "workingday", "weathersit", "weekend"]]
+    residuals = HistGradientBoostingRegressor(
+        max_iter=100,
+        categorical_features=res_cat,
+        early_stopping=False,
+        random_state=seed,
+    )
+    residuals.fit(x[:, res_cols], y - trend_train_pred)
+    pred_log = trend.predict(txp) + residuals.predict(xp[:, res_cols])
+    return np.expm1(np.maximum(0, pred_log)).tolist()

@@ -1,0 +1,38 @@
+[
+  {
+    "attempt": 12,
+    "source_sha256": "fa14274f323c2d8a989f4a88d0a0f5abd04f5132081a4bf8c56f1db18f017745",
+    "label": "Model the growth curve\nAdd quadratic time",
+    "position": [
+      0.04,
+      0.15
+    ]
+  },
+  {
+    "attempt": 24,
+    "source_sha256": "a3ffe55b0b5fcfc560c7453e48f5389b75e170b7ba36542ef2a5711bd40d913a",
+    "label": "Separate trend from trees\nRemove time from residual features",
+    "position": [
+      0.28,
+      0.79
+    ]
+  },
+  {
+    "attempt": 30,
+    "source_sha256": "e937ae032e4aa7eb7af5c151199428c70cf5187a927d172a1894cd657529db13",
+    "label": "Change the trend model\nPoisson \u2192 Tweedie",
+    "position": [
+      0.52,
+      0.56
+    ]
+  },
+  {
+    "attempt": 34,
+    "source_sha256": "98cf6659921f2b11137442fb34b10c40f4bc1d58f6b6243b46c03a4d879254f4",
+    "label": "Combine time scales\nLog + quadratic time",
+    "position": [
+      0.67,
+      0.27
+    ]
+  }
+]

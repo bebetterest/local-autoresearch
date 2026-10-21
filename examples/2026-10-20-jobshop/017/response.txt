@@ -1,0 +1,62 @@
+I’d try one improvement: make the greedy scheduler tail-aware. Instead of only picking the earliest-finishing operation, pick the candidate with the smallest estimated final job completion time (`finish + remaining job tail`). This should help avoid starving longer/delayed jobs.
+
+```python
+def solve(problem, seed, budget):
+    jobs = problem["jobs"]
+    n_machines = problem.get("machines", 20)
+    n_jobs = len(jobs)
+    ops_len = [len(ops) for ops in jobs]
+
+    tails = []
+    total_load = [0.0] * n_machines
+    for ops in jobs:
+        L = len(ops)
+        s = [0.0] * (L + 1)
+        for k in range(L - 1, -1, -1):
+            d = ops[k][1]
+            s[k] = s[k + 1] + d
+            total_load[ops[k][0]] += d
+        tails.append(s)
+
+    job_ready = [0.0] * n_jobs
+    machine_ready = [0.0] * n_machines
+    next_op = [0] * n_jobs
+    seq = []
+    total = sum(ops_len)
+
+    while len(seq) < total:
+        best_key = None
+        best_j = -1
+        best_m = -1
+        best_fin = 0.0
+
+        for j, ops in enumerate(jobs):
+            k = next_op[j]
+            if k >= ops_len[j]:
+                continue
+
+            m, d = ops[k]
+            jr = job_ready[j]
+            mr = machine_ready[m]
+            start = jr if jr > mr else mr
+            fin = start + d
+            tail_after = tails[j][k + 1]
+
+            # Improvement: prioritize by estimated job completion, then earliest finish, then duration, then job index.
+            key = (fin + tail_after, fin, d, j)
+
+            if best_key is None or key < best_key:
+                best_key = key
+                best_j = j
+                best_m = m
+                best_fin = fin
+
+        k = next_op[best_j]
+        duration = jobs[best_j][k][1]
+        job_ready[best_j] = best_fin
+        machine_ready[best_m] = best_fin
+        next_op[best_j] = k + 1
+        seq.append(best_j)
+
+    return seq
+```

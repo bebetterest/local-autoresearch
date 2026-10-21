@@ -1,0 +1,17 @@
+{
+  "source_sha256": "192ff2ea2d572b32c209f45a9454244af42ad0285cfcb8df77203479f87224cd",
+  "valid": false,
+  "mean_score": null,
+  "trials": [
+    {
+      "seed": 0,
+      "wall_seconds": 15.336444500018843,
+      "cpu_seconds": 15.254990000000005,
+      "exit_code": -24,
+      "timeout": false,
+      "stdout": "",
+      "stderr": "",
+      "valid": false
+    }
+  ]
+}

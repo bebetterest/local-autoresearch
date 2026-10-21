@@ -1,0 +1,97 @@
+I’d try a stochastic local search around the hexagonal seed: perturb centers, recompute the maximum feasible radius, and accept improvements (with occasional annealing moves). This should let the packing relax into a slightly better arrangement while staying valid.
+
+```python
+import math
+import time
+import random
+
+
+def _grid(n):
+    side = math.ceil(math.sqrt(n))
+    radius = 0.5 / side - 1e-12
+    return [
+        [(c + 0.5) / side, (row + 0.5) / side, radius]
+        for row in range(side)
+        for c in range(side)
+    ][:n]
+
+
+def _hex_base(n):
+    r = 0.09
+    sqrt3 = math.sqrt(3.0)
+    rows = [
+        (r, [r + 2.0 * r * j for j in range(5)]),
+        (r + sqrt3 * r, [2.0 * r + 2.0 * r * j for j in range(4)]),
+        (r + 2.0 * sqrt3 * r, [r + 2.0 * r * j for j in range(5)]),
+        (r + 3.0 * sqrt3 * r, [2.0 * r + 2.0 * r * j for j in range(4)]),
+        (r + 4.0 * sqrt3 * r, [r + 2.0 * r * j for j in range(5)]),
+        (r + 5.0 * sqrt3 * r, [2.0 * r + 2.0 * r * j for j in range(4)]),
+    ]
+    circles = []
+    for y, xs in rows:
+        for x in xs:
+            circles.append([x, y, r])
+    return circles[:n]
+
+
+def _max_radius(centers):
+    m = len(centers)
+    r = 0.5
+    for x, y in centers:
+        b = min(x, 1.0 - x, y, 1.0 - y)
+        if b < r:
+            r = b
+    for i in range(m):
+        xi, yi = centers[i]
+        for j in range(i + 1, m):
+            d = math.hypot(xi - centers[j][0], yi - centers[j][1])
+            half = d * 0.5
+            if half < r:
+                r = half
+    if r < 0.0:
+        r = 0.0
+    return r
+
+
+def solve(n, seed, budget):
+    if n != 26:
+        return _grid(n)
+
+    circles = _hex_base(26)
+    centers = [[c[0], c[1]] for c in circles]
+    if seed % 2 == 1:
+        centers = [[1.0 - x, y] for x, y in centers]
+
+    best_r = _max_radius(centers)
+    best_centers = [c[:] for c in centers]
+    current_r = best_r
+    current_centers = [c[:] for c in centers]
+
+    rng = random.Random(seed)
+    start = time.process_time()
+    deadline = start + min(float(budget), 10.0)
+
+    iterations = 0
+    while time.process_time() < deadline and iterations < 5000:
+        iterations += 1
+        scale = best_r * rng.uniform(0.01, 0.15)
+        new_centers = []
+        for x, y in current_centers:
+            nx = x + rng.uniform(-scale, scale)
+            ny = y + rng.uniform(-scale, scale)
+            nx = min(1.0, max(0.0, nx))
+            ny = min(1.0, max(0.0, ny))
+            new_centers.append([nx, ny])
+        nr = _max_radius(new_centers)
+        if nr > best_r + 1e-12:
+            best_r = nr
+            best_centers = new_centers
+            current_r = nr
+            current_centers = new_centers
+        elif nr < best_r and rng.random() < 0.05:
+            current_r = nr
+            current_centers = new_centers
+
+    radius = best_r - 1e-9
+    return [[x, y, radius] for x, y in best_centers]
+```

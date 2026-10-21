@@ -1,0 +1,96 @@
+Next improvement: replace the single greedy rollout with a small beam search. The beam score is the critical-path lower bound; keep the best 8 partial schedules at each step, then pick the exact best final schedule from the beam.
+
+```python
+def solve(problem, seed, budget):
+    jobs = problem["jobs"]
+    n_machines = problem.get("machines", 20)
+    n_jobs = len(jobs)
+    total = sum(len(ops) for ops in jobs)
+    ops_len = [len(ops) for ops in jobs]
+
+    tails = []
+    for ops in jobs:
+        L = len(ops)
+        s = [0.0] * (L + 1)
+        for k in range(L - 1, -1, -1):
+            s[k] = s[k + 1] + ops[k][1]
+        tails.append(s)
+
+    def lower_bound(job_ready, next_op):
+        lb = 0.0
+        for j in range(n_jobs):
+            k = next_op[j]
+            if k < ops_len[j]:
+                v = job_ready[j] + tails[j][k]
+            else:
+                v = job_ready[j]
+            if v > lb:
+                lb = v
+        return lb
+
+    beam_width = 8
+    beam = [(tuple([0.0] * n_jobs), tuple([0.0] * n_machines), tuple([0] * n_jobs), ())]
+
+    for _ in range(total):
+        candidates = []
+
+        for state in beam:
+            job_ready, machine_ready, next_op, seq = state
+            job_ready = list(job_ready)
+            machine_ready = list(machine_ready)
+            next_op = list(next_op)
+
+            for j, ops in enumerate(jobs):
+                k = next_op[j]
+                if k >= ops_len[j]:
+                    continue
+
+                m, d = ops[k]
+                jr = job_ready[j]
+                mr = machine_ready[m]
+                start = jr if jr > mr else mr
+                fin = start + d
+
+                nr = list(job_ready)
+                nr[j] = fin
+
+                nm = list(machine_ready)
+                nm[m] = fin
+
+                nk = list(next_op)
+                nk[j] = k + 1
+
+                nseq = seq + (j,)
+                candidates.append((lower_bound(nr, nk), nr, nm, nk, nseq))
+
+        candidates.sort(key=lambda x: x[0])
+        beam = [(x[1], x[2], x[3], x[4]) for x in candidates[:beam_width]]
+
+    best_seq = None
+    best_mk = float("inf")
+
+    for state in beam:
+        seq = state[3]
+        job_ready = [0.0] * n_jobs
+        machine_ready = [0.0] * n_machines
+        next_op = [0] * n_jobs
+        mk = 0.0
+
+        for j in seq:
+            ops = jobs[j]
+            k = next_op[j]
+            m, d = ops[k]
+            start = job_ready[j] if job_ready[j] > machine_ready[m] else machine_ready[m]
+            fin = start + d
+            job_ready[j] = fin
+            machine_ready[m] = fin
+            next_op[j] = k + 1
+            if fin > mk:
+                mk = fin
+
+        if mk < best_mk:
+            best_mk = mk
+            best_seq = seq
+
+    return list(best_seq)
+```

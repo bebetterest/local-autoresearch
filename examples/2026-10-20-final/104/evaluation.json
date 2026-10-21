@@ -1,0 +1,40 @@
+{
+  "source_sha256": "69e7ef897486351915f3e6fb6746e01d5ad96477e5f8329c03ab482da482e2fd",
+  "valid": false,
+  "mean_score": null,
+  "trials": [
+    {
+      "seed": 0,
+      "wall_seconds": 5.080363166052848,
+      "cpu_seconds": 4.991255,
+      "exit_code": 0,
+      "timeout": false,
+      "stdout": "",
+      "stderr": "",
+      "valid": false,
+      "error": "Constraint violation 0.0251353474902 exceeds 1e-09"
+    },
+    {
+      "seed": 1,
+      "wall_seconds": 5.949931333074346,
+      "cpu_seconds": 5.949121000000001,
+      "exit_code": 0,
+      "timeout": false,
+      "stdout": "",
+      "stderr": "",
+      "valid": false,
+      "error": "Constraint violation 0.0251353474902 exceeds 1e-09"
+    },
+    {
+      "seed": 2,
+      "wall_seconds": 5.338528457912616,
+      "cpu_seconds": 5.358936000000001,
+      "exit_code": 0,
+      "timeout": false,
+      "stdout": "",
+      "stderr": "",
+      "valid": false,
+      "error": "Constraint violation 0.0251353474902 exceeds 1e-09"
+    }
+  ]
+}

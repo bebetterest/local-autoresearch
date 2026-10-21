@@ -1,0 +1,56 @@
+I’d try raising the fixed hexagonal packing radius to the analytic maximum for that 6-row layout. The tight vertical constraint is:
+
+`height = 2r + 5*sqrt(3)*r = 1`
+
+so:
+
+`r = 1 / (2 + 5*sqrt(3)) ≈ 0.093847`
+
+This should improve the sum of radii while staying valid.
+
+```python
+import math
+
+
+def _grid(n):
+    side = math.ceil(math.sqrt(n))
+    radius = 0.5 / side - 1e-12
+    return [
+        [(c + 0.5) / side, (row + 0.5) / side, radius]
+        for row in range(side)
+        for c in range(side)
+    ][:n]
+
+
+def _base26():
+    r = 1.0 / (2.0 + 5.0 * math.sqrt(3.0)) - 1e-9
+    h = math.sqrt(3.0) * r
+    circles = []
+
+    y = r
+    for j in range(5):
+        circles.append([r + 2.0 * r * j, y, r])
+    y += h
+    for j in range(4):
+        circles.append([2.0 * r + 2.0 * r * j, y, r])
+    y += h
+    for j in range(5):
+        circles.append([r + 2.0 * r * j, y, r])
+    y += h
+    for j in range(4):
+        circles.append([2.0 * r + 2.0 * r * j, y, r])
+    y += h
+    for j in range(5):
+        circles.append([r + 2.0 * r * j, y, r])
+    y += h
+    for j in range(3):
+        circles.append([2.0 * r + 2.0 * r * j, y, r])
+
+    return circles
+
+
+def solve(n, seed, budget):
+    if n == 26:
+        return _base26()
+    return _grid(n)
+```

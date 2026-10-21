@@ -1,0 +1,17 @@
+{
+  "source_sha256": "a39b1cc36f87bb20b24caf73c28da4bbd0c75e5737ab257b0ba4c3979a426de6",
+  "valid": false,
+  "mean_score": null,
+  "trials": [
+    {
+      "seed": 0,
+      "wall_seconds": 0.850065334001556,
+      "cpu_seconds": 0.6590890000000051,
+      "exit_code": 1,
+      "timeout": false,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"<WORKSPACE>/worker.py\", line 17, in <module>\n    solution = candidate.solve(\n               ^^^^^^^^^^^^^^^^\n  File \"<WORKSPACE>/solver.py\", line 51, in solve\n    trend.fit(tx, y)\n  File \"<HOME>/code/flint-autoresearch-release/.venv/lib/python3.12/site-packages/sklearn/base.py\", line 1365, in wrapper\n    return fit_method(estimator, *args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<HOME>/code/flint-autoresearch-release/.venv/lib/python3.12/site-packages/sklearn/pipeline.py\", line 655, in fit\n    Xt = self._fit(X, y, routed_params, raw_params=params)\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<HOME>/code/flint-autoresearch-release/.venv/lib/python3.12/site-packages/sklearn/pipeline.py\", line 563, in _fit\n    self._validate_steps()\n  File \"<HOME>/code/flint-autoresearch-release/.venv/lib/python3.12/site-packages/sklearn/pipeline.py\", line 353, in _validate_steps\n    raise TypeError(\nTypeError: Last step of Pipeline should implement fit or be the string 'passthrough'. '[ColumnTransformer(transformers=[('calendar',\n                                 OneHotEncoder(handle_unknown='ignore',\n                                               sparse_output=False),\n                                 [0, 1, 2, 3, 4, 5, 6, 7, 12]),\n                                ('numeric', StandardScaler(),\n                                 [8, 9, 10, 11, 13, 14, 15, 16, 17])]), TweedieRegressor(max_iter=1000, power=1.5)]' (type <class 'list'>) doesn't\n",
+      "valid": false
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "started_at": "2026-10-19T22:48:20.789669+00:00",
+  "model": "flint",
+  "engine": "mlx",
+  "rec_version": "0.1.0-dual-mac.6",
+  "n": 26,
+  "cpu_seconds_per_seed": 15,
+  "wall_seconds_per_seed": 25,
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "tolerance": 1e-09,
+  "sampling": {
+    "temperature": 1.0,
+    "top_p": 0.95,
+    "top_k": 20,
+    "max_tokens": 32768
+  },
+  "fixed_files": {
+    "evaluate.py": "73beb8d3885ac1aab677d8c6e5a0b21601053a8a5f95eb3fb25163069b52c073",
+    "worker.py": "11863f58c0d63886c4a008a6378b4b906340b09fc016290330e6f288e7e02416",
+    "research.py": "5f281effa2c9398aa70bff31c68f0f4f4129276d7129f621c95ecdd678c18025",
+    "program.md": "5cceff3d2583ba2efddc85208af6cb2e2769a798fe250c7bcec5287327dc0275",
+    "uv.lock": "5b6583e87fb0d805c6afb17e9df4b8a68f0414d7c13f85446771120aa444db42"
+  },
+  "authorship": {
+    "scaffolding_and_grid_baseline": "Codex",
+    "all_research_candidates": "Flint"
+  }
+}

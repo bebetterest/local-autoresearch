@@ -1,0 +1,102 @@
+I’d try a lower-bound-ranked beam search: rank partial schedules by a makespan lower bound rather than only by the immediate finish time, while keeping a beam of promising branches.
+
+```python
+def solve(problem, seed, budget):
+    jobs = problem["jobs"]
+    n_machines = problem.get("machines", 20)
+    n_jobs = len(jobs)
+    total = sum(len(ops) for ops in jobs)
+
+    job_total = [0.0] * n_jobs
+    job_prefix = [0.0]
+    machine_total = [0.0] * n_machines
+    for j, ops in enumerate(jobs):
+        s = 0.0
+        for m, d in ops:
+            s += d
+            machine_total[m] += d
+        job_total[j] = s
+        job_prefix.append(s)
+
+    beam_width = 64
+
+    def lower_bound(state):
+        job_ready, machine_ready, next_op, seq = state
+        lb = 0.0
+        for j in range(n_jobs):
+            rem = job_total[j] - job_prefix[next_op[j]]
+            v = job_ready[j] + rem
+            if v > lb:
+                lb = v
+
+        machine_rem = machine_total[:]
+        for j in range(n_jobs):
+            no = next_op[j]
+            ops_j = jobs[j]
+            for k in range(no):
+                machine_rem[ops_j[k][0]] -= ops_j[k][1]
+
+        for m in range(n_machines):
+            v = machine_ready[m] + machine_rem[m]
+            if v > lb:
+                lb = v
+        return lb
+
+    def initial_state():
+        return (
+            tuple([0.0] * n_jobs),
+            tuple([0.0] * n_machines),
+            tuple([0] * n_jobs),
+            ()
+        )
+
+    beam = [initial_state()]
+
+    for _ in range(total):
+        candidates = []
+
+        for si, state in enumerate(beam):
+            job_ready, machine_ready, next_op, seq = state
+            lb = lower_bound(state)
+
+            for j, ops in enumerate(jobs):
+                if next_op[j] >= len(ops):
+                    continue
+
+                m, d = ops[next_op[j]]
+                start = job_ready[j] if job_ready[j] > machine_ready[m] else machine_ready[m]
+                finish = start + d
+                candidates.append((lb, finish, d, j, si, m))
+
+        candidates.sort(key=lambda x: (x[0], x[1], x[2], x[3], x[4]))
+        selected = candidates[:beam_width]
+
+        next_beam = []
+
+        for lb, finish, d, j, si, m in selected:
+            job_ready, machine_ready, next_op, seq = beam[si]
+
+            new_job_ready = list(job_ready)
+            new_job_ready[j] = finish
+
+            new_machine_ready = list(machine_ready)
+            new_machine_ready[m] = finish
+
+            new_next_op = list(next_op)
+            new_next_op[j] += 1
+
+            new_seq = list(seq)
+            new_seq.append(j)
+
+            next_beam.append((
+                tuple(new_job_ready),
+                tuple(new_machine_ready),
+                tuple(new_next_op),
+                tuple(new_seq)
+            ))
+
+        beam = next_beam
+
+    best = min(beam, key=lambda s: max(max(s[0]), max(s[1])))
+    return list(best[3])
+```

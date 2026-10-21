@@ -1,0 +1,247 @@
+{
+  "reviewed_at": "2026-10-20T06:32:11.977043+00:00",
+  "scope": "Run closed after 128 attempts, with 97 distinct Flint-written candidates receiving valid numerical scores. The original target of 100 was not reached; the run was stopped for wrap-up after its current attempt finished. Every attempt and the baseline are preserved.",
+  "completed_attempts": 128,
+  "distinct_scored_candidates": 97,
+  "original_target": 100,
+  "target_reached": false,
+  "retained_improvements": [
+    "001",
+    "005",
+    "006",
+    "007",
+    "017",
+    "020",
+    "022",
+    "028",
+    "037",
+    "052",
+    "057",
+    "061",
+    "070",
+    "082",
+    "109",
+    "118"
+  ],
+  "excluded_attempts": [
+    {
+      "attempt": "004",
+      "qualifies": false,
+      "exclusion": "unsuccessful evaluation"
+    },
+    {
+      "attempt": "021",
+      "qualifies": false,
+      "exclusion": "unsuccessful evaluation"
+    },
+    {
+      "attempt": "025",
+      "qualifies": false,
+      "exclusion": "unsuccessful evaluation"
+    },
+    {
+      "attempt": "027",
+      "qualifies": false,
+      "exclusion": "unsuccessful evaluation"
+    },
+    {
+      "attempt": "053",
+      "qualifies": false,
+      "exclusion": "unsuccessful evaluation"
+    },
+    {
+      "attempt": "054",
+      "qualifies": false,
+      "exclusion": "unsuccessful evaluation"
+    },
+    {
+      "attempt": "055",
+      "qualifies": false,
+      "exclusion": "unsuccessful evaluation"
+    },
+    {
+      "attempt": "056",
+      "qualifies": false,
+      "exclusion": "unsuccessful evaluation"
+    },
+    {
+      "attempt": "058",
+      "qualifies": false,
+      "exclusion": "unsuccessful evaluation"
+    },
+    {
+      "attempt": "059",
+      "qualifies": false,
+      "exclusion": "unsuccessful evaluation"
+    },
+    {
+      "attempt": "060",
+      "qualifies": false,
+      "exclusion": "unsuccessful evaluation"
+    },
+    {
+      "attempt": "063",
+      "qualifies": false,
+      "exclusion": "unsuccessful evaluation"
+    },
+    {
+      "attempt": "064",
+      "qualifies": false,
+      "exclusion": "unsuccessful evaluation"
+    },
+    {
+      "attempt": "065",
+      "qualifies": false,
+      "exclusion": "unsuccessful evaluation"
+    },
+    {
+      "attempt": "068",
+      "qualifies": false,
+      "exclusion": "unsuccessful evaluation"
+    },
+    {
+      "attempt": "074",
+      "qualifies": false,
+      "exclusion": "unsuccessful evaluation"
+    },
+    {
+      "attempt": "075",
+      "qualifies": false,
+      "exclusion": "unsuccessful evaluation"
+    },
+    {
+      "attempt": "077",
+      "qualifies": false,
+      "score": 2.622324086414814,
+      "structural_sha256": "d12eeacdb75be6a9d1b72bfb7f528e6a85e05088fa1354d16aa85cc9ea09e2e3",
+      "exclusion": "duplicate implementation",
+      "duplicate_of": "076"
+    },
+    {
+      "attempt": "079",
+      "qualifies": false,
+      "score": 2.6223240864149635,
+      "structural_sha256": "a802e1e2bc98ab27f7ad8f75c88764ff4f043ab81778724695f2b384d503af65",
+      "exclusion": "duplicate implementation",
+      "duplicate_of": "078"
+    },
+    {
+      "attempt": "085",
+      "qualifies": false,
+      "exclusion": "unsuccessful evaluation"
+    },
+    {
+      "attempt": "089",
+      "qualifies": false,
+      "score": 2.6226074027038466,
+      "structural_sha256": "8174521773f65d00bf8ed1c00a5c2986814478105bcf7fda7d4872d6f912a958",
+      "exclusion": "duplicate implementation",
+      "duplicate_of": "088"
+    },
+    {
+      "attempt": "092",
+      "qualifies": false,
+      "exclusion": "unsuccessful evaluation"
+    },
+    {
+      "attempt": "096",
+      "qualifies": false,
+      "exclusion": "unsuccessful evaluation"
+    },
+    {
+      "attempt": "100",
+      "qualifies": false,
+      "exclusion": "unsuccessful evaluation"
+    },
+    {
+      "attempt": "104",
+      "qualifies": false,
+      "exclusion": "unsuccessful evaluation"
+    },
+    {
+      "attempt": "106",
+      "qualifies": false,
+      "exclusion": "unsuccessful evaluation"
+    },
+    {
+      "attempt": "107",
+      "qualifies": false,
+      "exclusion": "unsuccessful evaluation"
+    },
+    {
+      "attempt": "111",
+      "qualifies": false,
+      "exclusion": "unsuccessful evaluation"
+    },
+    {
+      "attempt": "113",
+      "qualifies": false,
+      "exclusion": "unsuccessful evaluation"
+    },
+    {
+      "attempt": "122",
+      "qualifies": false,
+      "exclusion": "unsuccessful evaluation"
+    },
+    {
+      "attempt": "126",
+      "qualifies": false,
+      "score": 1.029648883475369,
+      "structural_sha256": "39f2b1ea8a6fb81a074bfeb907c17b9cde4319d59c86e6cb62ec8afa7bf1158b",
+      "exclusion": "duplicate implementation",
+      "duplicate_of": "125"
+    }
+  ],
+  "best_attempt": "118",
+  "best_mean_score": 2.6294084788084837,
+  "gain_over_simple_grid_percent": 21.357314408001706,
+  "best_exact_feasible_seed_count": 0,
+  "highest_mean_exact_on_all_search_seeds": {
+    "attempt": "070",
+    "score": 2.622324086414814
+  },
+  "post_run_seeds": {
+    "seeds": [
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "candidate": "118",
+    "valid": true,
+    "mean_score": 2.6248408119564965,
+    "purpose": "Additional seeds for the same mathematical instance, evaluated only after research stopped and never supplied to Flint. This is not a generalization test on other circle counts."
+  },
+  "recorded_resources": {
+    "model_seconds": 26704.396502955817,
+    "completion_tokens": 2022595,
+    "prompt_tokens": 916094,
+    "research_candidate_cpu_seconds": 873.6649460000002,
+    "scope": "All official research attempts, including excluded ones. Baseline, calibration, diagnostic replays and post-run validation are excluded from these totals."
+  },
+  "response_finish_reasons": {
+    "stop": 128
+  },
+  "review": "Every attempt has a separate reviewer annotation. Flint alone authored every research candidate; no research code or scores were repaired. Distinct syntax trees do not establish scientific novelty or one improvement per counted candidate. Failed evaluations and duplicates are excluded from the distinct-candidate count but preserved in full.",
+  "diagnostics": "Separate instrumented replays and a numerical-library thread probe are labeled, excluded from scoring and never supplied to Flint. Instrumentation can change timing; their times are not original experiment measurements.",
+  "thread_limit_correction": "The frozen brief says one CPU thread. Common numerical-library thread variables were set to one, but a separate same-environment HiGHS probe created nine native threads. Original candidate thread counts and actual parallel workload are unknown. The fixed process CPU limit and accounting were preserved.",
+  "limitations": "One public 26-circle instance, a weak grid baseline and a tolerance-based score. No claim of a mathematical record, optimality, 100 new algorithms or 100 improvements. Exact feasibility is reported separately from the fixed numerical acceptance rule.",
+  "stream_and_request_audit": {
+    "completed_requests_and_streams_verified": 128,
+    "last_attempt": "128",
+    "fingerprints": [
+      "flint-int4-35f0f727-mlx-lm-0.31.3"
+    ],
+    "checks": [
+      "fixed input hashes",
+      "exact request reconstruction",
+      "content and reasoning",
+      "usage and finish reason",
+      "first-token time",
+      "monotonic stream times",
+      "one DONE marker",
+      "plain-text response copy"
+    ]
+  }
+}

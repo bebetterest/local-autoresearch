@@ -1,0 +1,314 @@
+{
+  "replays": [
+    {
+      "created_at": "2026-10-19T23:33:12.711978+00:00",
+      "purpose": "Non-scoring diagnostic replay of attempt 012 with exception tracing in the worker; candidate source and official results are unchanged. Not supplied to Flint.",
+      "source_sha256": "b99135377fc94e9e63dffb21d7ea9c59012b757b94b00e3517edc55d67a3768a",
+      "worker_source": "\"\"\"Execute one candidate inside the OS sandbox; acceptance happens in the parent.\"\"\"\n\nimport importlib.util\nimport json\nimport resource\nimport sys\nimport time\nfrom pathlib import Path\n\ncpu_seconds = int(sys.argv[1])\nresource.setrlimit(resource.RLIMIT_CPU, (cpu_seconds, cpu_seconds))\nresource.setrlimit(resource.RLIMIT_FSIZE, (2 * 1024 * 1024, 2 * 1024 * 1024))\nspec = importlib.util.spec_from_file_location(\"candidate\", \"solver.py\")\ncandidate = importlib.util.module_from_spec(spec)\nspec.loader.exec_module(candidate)\n\ndef trace_candidate(frame, event, arg):\n    if frame.f_code.co_filename != candidate.__file__:\n        return None\n    if event == \"exception\":\n        exception_type, exception, traceback = arg\n        print(json.dumps({\"event\": \"candidate_exception\", \"function\": frame.f_code.co_name,\n                          \"line\": frame.f_lineno, \"type\": exception_type.__name__,\n                          \"message\": str(exception)}), flush=True)\n    return trace_candidate\nsys.settrace(trace_candidate)\n\ncircles = candidate.solve(26, int(sys.argv[2]), max(0, cpu_seconds - time.process_time() - 0.5))\nPath(\"packing.json\").write_text(json.dumps(circles, allow_nan=False))\n",
+      "seed": 0,
+      "result": {
+        "seed": 0,
+        "wall_seconds": 0.6082406661007553,
+        "cpu_seconds": 0.49983999999999995,
+        "exit_code": 0,
+        "timeout": false,
+        "stdout": "",
+        "stderr": "",
+        "valid": true,
+        "score": 2.4336,
+        "max_violation": 5.551115123125783e-17,
+        "circles": [
+          [
+            0.0936,
+            0.0936,
+            0.0936
+          ],
+          [
+            0.2808,
+            0.0936,
+            0.0936
+          ],
+          [
+            0.468,
+            0.0936,
+            0.0936
+          ],
+          [
+            0.6552,
+            0.0936,
+            0.0936
+          ],
+          [
+            0.8424,
+            0.0936,
+            0.0936
+          ],
+          [
+            0.1872,
+            0.2557199555884469,
+            0.0936
+          ],
+          [
+            0.3744,
+            0.2557199555884469,
+            0.0936
+          ],
+          [
+            0.5616,
+            0.2557199555884469,
+            0.0936
+          ],
+          [
+            0.7488,
+            0.2557199555884469,
+            0.0936
+          ],
+          [
+            0.0936,
+            0.4178399111768938,
+            0.0936
+          ],
+          [
+            0.2808,
+            0.4178399111768938,
+            0.0936
+          ],
+          [
+            0.468,
+            0.4178399111768938,
+            0.0936
+          ],
+          [
+            0.6552,
+            0.4178399111768938,
+            0.0936
+          ],
+          [
+            0.8424,
+            0.4178399111768938,
+            0.0936
+          ],
+          [
+            0.1872,
+            0.5799598667653407,
+            0.0936
+          ],
+          [
+            0.3744,
+            0.5799598667653407,
+            0.0936
+          ],
+          [
+            0.5616,
+            0.5799598667653407,
+            0.0936
+          ],
+          [
+            0.7488,
+            0.5799598667653407,
+            0.0936
+          ],
+          [
+            0.0936,
+            0.7420798223537877,
+            0.0936
+          ],
+          [
+            0.2808,
+            0.7420798223537877,
+            0.0936
+          ],
+          [
+            0.468,
+            0.7420798223537877,
+            0.0936
+          ],
+          [
+            0.6552,
+            0.7420798223537877,
+            0.0936
+          ],
+          [
+            0.8424,
+            0.7420798223537877,
+            0.0936
+          ],
+          [
+            0.1872,
+            0.9041997779422346,
+            0.0936
+          ],
+          [
+            0.3744,
+            0.9041997779422346,
+            0.0936
+          ],
+          [
+            0.5616,
+            0.9041997779422346,
+            0.0936
+          ]
+        ],
+        "certificate": {
+          "exact_feasible": false,
+          "rational_sum": "1521/625"
+        }
+      }
+    },
+    {
+      "created_at": "2026-10-19T23:33:33.027135+00:00",
+      "purpose": "Non-scoring diagnostic replay of attempt 012 with candidate-entry, exception and optimizer-result tracing. Candidate source and official results are unchanged. Not supplied to Flint.",
+      "source_sha256": "b99135377fc94e9e63dffb21d7ea9c59012b757b94b00e3517edc55d67a3768a",
+      "worker_source": "\"\"\"Execute one candidate inside the OS sandbox; acceptance happens in the parent.\"\"\"\n\nimport importlib.util\nimport json\nimport resource\nimport sys\nimport time\nfrom pathlib import Path\n\ncpu_seconds = int(sys.argv[1])\nresource.setrlimit(resource.RLIMIT_CPU, (cpu_seconds, cpu_seconds))\nresource.setrlimit(resource.RLIMIT_FSIZE, (2 * 1024 * 1024, 2 * 1024 * 1024))\nspec = importlib.util.spec_from_file_location(\"candidate\", \"solver.py\")\ncandidate = importlib.util.module_from_spec(spec)\nspec.loader.exec_module(candidate)\n\ndef trace_candidate(frame, event, arg):\n    if frame.f_code.co_filename != candidate.__file__:\n        return None\n    if event == \"exception\":\n        kind, error, traceback = arg\n        print(json.dumps({\"event\": \"candidate_exception\", \"function\": frame.f_code.co_name,\n                          \"line\": frame.f_lineno, \"type\": kind.__name__, \"message\": str(error)}), flush=True)\n    if frame.f_code.co_name == \"_try_radius\":\n        if event == \"call\":\n            print(json.dumps({\"event\": \"entered_try_radius\"}), flush=True)\n        if event == \"return\" and \"res\" in frame.f_locals:\n            res = frame.f_locals[\"res\"]\n            print(json.dumps({\"event\": \"optimizer_result\", \"success\": bool(res.success),\n                              \"message\": str(res.message), \"iterations\": int(res.nit),\n                              \"evaluations\": int(res.nfev), \"penalty\": float(res.fun)}), flush=True)\n    return trace_candidate\nsys.settrace(trace_candidate)\n\ncircles = candidate.solve(26, int(sys.argv[2]), max(0, cpu_seconds - time.process_time() - 0.5))\nPath(\"packing.json\").write_text(json.dumps(circles, allow_nan=False))\n",
+      "seed": 0,
+      "result": {
+        "seed": 0,
+        "wall_seconds": 0.5237349589588121,
+        "cpu_seconds": 0.47296699999999997,
+        "exit_code": 0,
+        "timeout": false,
+        "stdout": "{\"event\": \"entered_try_radius\"}\n{\"event\": \"optimizer_result\", \"success\": false, \"message\": \"Maximum number of iterations has been exceeded.\", \"iterations\": 20, \"evaluations\": 2184, \"penalty\": 0.12489042340827042}\n",
+        "stderr": "",
+        "valid": true,
+        "score": 2.4336,
+        "max_violation": 5.551115123125783e-17,
+        "circles": [
+          [
+            0.0936,
+            0.0936,
+            0.0936
+          ],
+          [
+            0.2808,
+            0.0936,
+            0.0936
+          ],
+          [
+            0.468,
+            0.0936,
+            0.0936
+          ],
+          [
+            0.6552,
+            0.0936,
+            0.0936
+          ],
+          [
+            0.8424,
+            0.0936,
+            0.0936
+          ],
+          [
+            0.1872,
+            0.2557199555884469,
+            0.0936
+          ],
+          [
+            0.3744,
+            0.2557199555884469,
+            0.0936
+          ],
+          [
+            0.5616,
+            0.2557199555884469,
+            0.0936
+          ],
+          [
+            0.7488,
+            0.2557199555884469,
+            0.0936
+          ],
+          [
+            0.0936,
+            0.4178399111768938,
+            0.0936
+          ],
+          [
+            0.2808,
+            0.4178399111768938,
+            0.0936
+          ],
+          [
+            0.468,
+            0.4178399111768938,
+            0.0936
+          ],
+          [
+            0.6552,
+            0.4178399111768938,
+            0.0936
+          ],
+          [
+            0.8424,
+            0.4178399111768938,
+            0.0936
+          ],
+          [
+            0.1872,
+            0.5799598667653407,
+            0.0936
+          ],
+          [
+            0.3744,
+            0.5799598667653407,
+            0.0936
+          ],
+          [
+            0.5616,
+            0.5799598667653407,
+            0.0936
+          ],
+          [
+            0.7488,
+            0.5799598667653407,
+            0.0936
+          ],
+          [
+            0.0936,
+            0.7420798223537877,
+            0.0936
+          ],
+          [
+            0.2808,
+            0.7420798223537877,
+            0.0936
+          ],
+          [
+            0.468,
+            0.7420798223537877,
+            0.0936
+          ],
+          [
+            0.6552,
+            0.7420798223537877,
+            0.0936
+          ],
+          [
+            0.8424,
+            0.7420798223537877,
+            0.0936
+          ],
+          [
+            0.1872,
+            0.9041997779422346,
+            0.0936
+          ],
+          [
+            0.3744,
+            0.9041997779422346,
+            0.0936
+          ],
+          [
+            0.5616,
+            0.9041997779422346,
+            0.0936
+          ]
+        ],
+        "certificate": {
+          "exact_feasible": false,
+          "rational_sum": "1521/625"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "completed_attempts": 100,
+  "decisions": {
+    "baseline": 1,
+    "discard": 70,
+    "keep": 7,
+    "invalid": 23
+  },
+  "finish_reasons": {
+    "stop": 87,
+    "length": 13
+  },
+  "distinct_scored_candidates": 77,
+  "duplicates": 0,
+  "model_seconds": 18054.2211678304,
+  "completion_tokens": 1128751,
+  "valid_evaluation_cpu_seconds": 79.03197099999998,
+  "baseline_validation": {
+    "rmsle": 0.5359042202166034,
+    "total_bias_percent": -5.84253721209933,
+    "mean_log_error": -0.032281940297418946
+  },
+  "best_validation": {
+    "rmsle": 0.37080572161890396,
+    "total_bias_percent": -4.432807014059947,
+    "mean_log_error": -0.0538465614271504
+  },
+  "final_evaluations": {
+    "baseline-final-test.json": {
+      "rmsle": 0.3952801717751852,
+      "total_bias_percent": -5.8853907410012285,
+      "mean_log_error": 0.02549035527044307,
+      "cpu_seconds": 0.819086
+    },
+    "final-test.json": {
+      "rmsle": 0.3594083804443445,
+      "total_bias_percent": -1.1608366344541543,
+      "mean_log_error": 0.027442269196531355,
+      "cpu_seconds": 0.7949839999999999
+    }
+  },
+  "verified_export_files": 696
+}

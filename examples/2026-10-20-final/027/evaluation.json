@@ -1,0 +1,37 @@
+{
+  "source_sha256": "080ce59e96b2577d83547019cc68d6d0b4d12889422e7eba5c8ce4410ad42eb3",
+  "valid": false,
+  "mean_score": null,
+  "trials": [
+    {
+      "seed": 0,
+      "wall_seconds": 1.722745833103545,
+      "cpu_seconds": 1.688398,
+      "exit_code": 1,
+      "timeout": false,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"<WORKSPACE>/worker.py\", line 16, in <module>\n    circles = candidate.solve(26, int(sys.argv[2]), max(0, cpu_seconds - time.process_time() - 0.5))\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<WORKSPACE>/solver.py\", line 170, in solve\n    improved = _local_improve(cand, time_limit=min(2.0, remaining), seed=seed)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<WORKSPACE>/solver.py\", line 144, in _local_improve\n    cand2 = attempt(np.array([v for c in cand for v in cand]), 30, 1e-12, cand)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<WORKSPACE>/solver.py\", line 118, in attempt\n    res = minimize(\n          ^^^^^^^^^\n  File \"<HOME>/code/flint-autoresearch/.venv/lib/python3.12/site-packages/scipy/optimize/_minimize.py\", line 591, in minimize\n    raise ValueError(\"'x0' must only have one dimension.\")\nValueError: 'x0' must only have one dimension.\n",
+      "valid": false
+    },
+    {
+      "seed": 1,
+      "wall_seconds": 1.7221392079954967,
+      "cpu_seconds": 1.686967,
+      "exit_code": 1,
+      "timeout": false,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"<WORKSPACE>/worker.py\", line 16, in <module>\n    circles = candidate.solve(26, int(sys.argv[2]), max(0, cpu_seconds - time.process_time() - 0.5))\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<WORKSPACE>/solver.py\", line 170, in solve\n    improved = _local_improve(cand, time_limit=min(2.0, remaining), seed=seed)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<WORKSPACE>/solver.py\", line 144, in _local_improve\n    cand2 = attempt(np.array([v for c in cand for v in cand]), 30, 1e-12, cand)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<WORKSPACE>/solver.py\", line 118, in attempt\n    res = minimize(\n          ^^^^^^^^^\n  File \"<HOME>/code/flint-autoresearch/.venv/lib/python3.12/site-packages/scipy/optimize/_minimize.py\", line 591, in minimize\n    raise ValueError(\"'x0' must only have one dimension.\")\nValueError: 'x0' must only have one dimension.\n",
+      "valid": false
+    },
+    {
+      "seed": 2,
+      "wall_seconds": 1.731242417008616,
+      "cpu_seconds": 1.6807040000000004,
+      "exit_code": 1,
+      "timeout": false,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"<WORKSPACE>/worker.py\", line 16, in <module>\n    circles = candidate.solve(26, int(sys.argv[2]), max(0, cpu_seconds - time.process_time() - 0.5))\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<WORKSPACE>/solver.py\", line 170, in solve\n    improved = _local_improve(cand, time_limit=min(2.0, remaining), seed=seed)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<WORKSPACE>/solver.py\", line 144, in _local_improve\n    cand2 = attempt(np.array([v for c in cand for v in cand]), 30, 1e-12, cand)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<WORKSPACE>/solver.py\", line 118, in attempt\n    res = minimize(\n          ^^^^^^^^^\n  File \"<HOME>/code/flint-autoresearch/.venv/lib/python3.12/site-packages/scipy/optimize/_minimize.py\", line 591, in minimize\n    raise ValueError(\"'x0' must only have one dimension.\")\nValueError: 'x0' must only have one dimension.\n",
+      "valid": false
+    }
+  ]
+}

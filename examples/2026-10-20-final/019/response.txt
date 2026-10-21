@@ -1,0 +1,96 @@
+**Next idea:** Add a tiny stochastic local search (simulated annealing) over the hexagonal packing. Start from the current arrangement, try small random position moves, accept improvements or worse moves with temperature, and keep the best valid max-radius packing. This gives a simple escape hatch from the local optimum without changing the overall approach.
+
+```python
+import math
+import random
+import time
+
+
+def _grid(n):
+    side = math.ceil(math.sqrt(n))
+    radius = 0.5 / side - 1e-12
+    return [
+        [(c + 0.5) / side, (row + 0.5) / side, radius]
+        for row in range(side)
+        for c in range(side)
+    ][:n]
+
+
+def _base26():
+    r = 0.0937
+    h = math.sqrt(3.0) * r
+    circles = []
+
+    y = r
+    for j in range(5):
+        circles.append([r + 2.0 * r * j, y, r])
+    y += h
+    for j in range(4):
+        circles.append([2.0 * r + 2.0 * r * j, y, r])
+    y += h
+    for j in range(5):
+        circles.append([r + 2.0 * r * j, y, r])
+    y += h
+    for j in range(4):
+        circles.append([2.0 * r + 2.0 * r * j, y, r])
+    y += h
+    for j in range(5):
+        circles.append([r + 2.0 * r * j, y, r])
+    y += h
+    for j in range(3):
+        circles.append([2.0 * r + 2.0 * r * j, y, r])
+
+    return circles
+
+
+def _max_radius(circles):
+    r = 0.5
+    n = len(circles)
+    for x, y, _ in circles:
+        r = min(r, x, 1.0 - x, y, 1.0 - y)
+    for i in range(n):
+        xi, yi, _ = circles[i]
+        for j in range(i + 1, n):
+            xj, yj, _ = circles[j]
+            d = math.hypot(xi - xj, yi - yj)
+            r = min(r, d * 0.5)
+    return r
+
+
+def solve(n, seed, budget):
+    if n == 26:
+        base = _base26()
+        best_circles = [list(c) for c in base]
+        best_r = _max_radius(best_circles)
+        current = [list(c) for c in base]
+
+        rng = random.Random(seed)
+        start = time.process_time()
+        time_limit = min(budget * 0.5, 2.0)
+        max_iter = 2000
+
+        for it in range(max_iter):
+            if time.process_time() - start > time_limit:
+                break
+
+            idx = rng.randrange(26)
+            delta = rng.uniform(-0.003, 0.003)
+            cand = [list(c) for c in current]
+            cand[idx][0] += delta
+            cand[idx][1] += delta
+            cand_r = _max_radius(cand)
+
+            if cand_r > best_r:
+                best_r = cand_r
+                best_circles = cand
+                current = cand
+            else:
+                T = max(0.0001, 0.001 * (1.0 - it / max_iter))
+                if rng.random() < math.exp((cand_r - best_r) / T):
+                    current = cand
+
+        final_r = best_r - 1e-9
+        return [[c[0], c[1], final_r] for c in best_circles]
+    else:
+        return _grid(n)
+```

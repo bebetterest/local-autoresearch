@@ -1,0 +1,76 @@
+I’d try adding a simple training-set bias calibration step to the log-space predictions, since the feedback indicates underprediction. This keeps the core model intact and just shifts the final log prediction by the mean training residual.
+
+```python
+"""Fit Poisson time/calendar trend plus boosted residuals with calibration."""
+
+import numpy as np
+from sklearn.compose import ColumnTransformer
+from sklearn.ensemble import HistGradientBoostingRegressor
+from sklearn.linear_model import PoissonRegressor
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
+
+
+def solve(problem, seed, budget):
+    x = np.asarray(problem["train_x"], dtype=float)
+    xp = np.asarray(problem["predict_x"], dtype=float)
+    y = np.log1p(np.asarray(problem["train_y"], dtype=float))
+    names = list(problem["features"])
+
+    trend_categorical = [
+        names.index(k) for k in (
+            "season", "yr", "mnth", "hr", "holiday", "weekday", "workingday",
+            "weathersit", "weekend",
+        )
+    ]
+    residual_categorical = [
+        names.index(k) for k in (
+            "hr", "holiday", "weekday", "workingday", "weathersit", "weekend",
+        )
+    ]
+    numeric = [names.index(k) for k in ("temp", "atemp", "hum", "windspeed", "elapsed_days")]
+
+    elapsed_idx = names.index("elapsed_days")
+    day = x[:, elapsed_idx]
+    dayp = xp[:, elapsed_idx]
+
+    sin_t = np.sin(2 * np.pi * day / 365.25)
+    cos_t = np.cos(2 * np.pi * day / 365.25)
+    day2_t = day ** 2
+    sin_tp = np.sin(2 * np.pi * dayp / 365.25)
+    cos_tp = np.cos(2 * np.pi * dayp / 365.25)
+    day2_tp = dayp ** 2
+
+    trend_x = np.column_stack((x, sin_t, cos_t, day2_t))
+    trend_xp = np.column_stack((xp, sin_tp, cos_tp, day2_tp))
+    numeric += [len(names), len(names) + 1, len(names) + 2]
+
+    trend = make_pipeline(
+        ColumnTransformer(
+            [
+                (
+                    "calendar",
+                    OneHotEncoder(handle_unknown="ignore", sparse_output=False),
+                    trend_categorical,
+                ),
+                ("numeric", StandardScaler(), numeric),
+            ]
+        ),
+        PoissonRegressor(alpha=1.0, max_iter=1000),
+    )
+    trend.fit(trend_x, y)
+
+    residuals = HistGradientBoostingRegressor(
+        max_iter=100,
+        categorical_features=residual_categorical,
+        early_stopping=False,
+        random_state=seed,
+    )
+    residuals.fit(x, y - trend.predict(trend_x))
+
+    final_train_pred = trend.predict(trend_x) + residuals.predict(x)
+    calibration = np.mean(y - final_train_pred)
+
+    prediction = trend.predict(trend_xp) + residuals.predict(xp) + calibration
+    return np.expm1(np.maximum(0.0, prediction)).tolist()
+```

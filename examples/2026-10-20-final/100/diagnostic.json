@@ -1,0 +1,23 @@
+{
+  "replays": [
+    {
+      "created_at": "2026-10-20T04:31:11.421112+00:00",
+      "purpose": "Separate non-scoring seed-0 replay of unchanged invalid attempt 100. A worker wrapper records the number of starts returned after the new orientation filter. Instrumentation adds overhead. Official results are unchanged; the replay is excluded from counting and never supplied to Flint.",
+      "source_sha256": "29d8af92f8dffdbcca292b1a4c4ff5d9597064d754494b259df5e9d4c7895bdf",
+      "worker_source": "\"\"\"Execute one candidate inside the OS sandbox; acceptance happens in the parent.\"\"\"\n\nimport importlib.util\nimport json\nimport resource\nimport sys\nimport time\nfrom pathlib import Path\n\ncpu_seconds = int(sys.argv[1])\nresource.setrlimit(resource.RLIMIT_CPU, (cpu_seconds, cpu_seconds))\nresource.setrlimit(resource.RLIMIT_FSIZE, (2 * 1024 * 1024, 2 * 1024 * 1024))\nspec = importlib.util.spec_from_file_location(\"candidate\", \"solver.py\")\ncandidate = importlib.util.module_from_spec(spec)\nspec.loader.exec_module(candidate)\n\noriginal_extra_starts = candidate._extra_starts\ndef observed_extra_starts(base):\n    out = original_extra_starts(base)\n    print(json.dumps({\"event\": \"extra_starts_result\", \"returned_starts\": len(out)}), flush=True)\n    return out\ncandidate._extra_starts = observed_extra_starts\n\ncircles = candidate.solve(26, int(sys.argv[2]), max(0, cpu_seconds - time.process_time() - 0.5))\nPath(\"packing.json\").write_text(json.dumps(circles, allow_nan=False))\n",
+      "worker_sha256": "0452b2053e116b640324275e114123dac7b8cdddd9d03bbc1bcb5fe6011391d7",
+      "seed": 0,
+      "result": {
+        "seed": 0,
+        "wall_seconds": 4.204414792009629,
+        "cpu_seconds": 4.213469,
+        "exit_code": 0,
+        "timeout": false,
+        "stdout": "{\"event\": \"extra_starts_result\", \"returned_starts\": 0}\n",
+        "stderr": "",
+        "valid": false,
+        "error": "Constraint violation 0.0251353474902 exceeds 1e-09"
+      }
+    }
+  ]
+}

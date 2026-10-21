@@ -1,0 +1,90 @@
+"""Fit Tweedie time/calendar trend plus time-aware boosted residuals."""
+
+import os
+os.environ["OMP_NUM_THREADS"] = "1"
+os.environ["OPENBLAS_NUM_THREADS"] = "1"
+os.environ["MKL_NUM_THREADS"] = "1"
+
+import numpy as np
+from sklearn.compose import ColumnTransformer
+from sklearn.ensemble import HistGradientBoostingRegressor
+from sklearn.linear_model import TweedieRegressor
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
+
+
+def solve(problem, seed, budget):
+    x = np.asarray(problem["train_x"])
+    xp = np.asarray(problem["predict_x"])
+    y = np.log1p(problem["train_y"])
+    names = problem["features"]
+
+    trend_categorical = [
+        names.index(k) for k in (
+            "season", "yr", "mnth", "hr", "holiday", "weekday", "workingday", "weathersit", "weekend",
+        )
+    ]
+    residual_categorical = [
+        names.index(k) for k in (
+            "hr", "holiday", "weekday", "workingday", "weathersit", "weekend",
+        )
+    ]
+    numeric = [names.index(k) for k in ("temp", "atemp", "hum", "windspeed", "elapsed_days")]
+
+    trend_inputs = []
+    for values in (x, xp):
+        day = values[:, names.index("elapsed_days")]
+        trend_inputs.append(
+            np.column_stack(
+                (
+                    values,
+                    np.sin(2 * np.pi * day / 365.25),
+                    np.cos(2 * np.pi * day / 365.25),
+                    np.log1p(day),
+                )
+            )
+        )
+    trend_x, trend_xp = trend_inputs
+    numeric += [len(names), len(names) + 1, len(names) + 2]
+
+    trend = make_pipeline(
+        ColumnTransformer(
+            [
+                (
+                    "calendar",
+                    OneHotEncoder(handle_unknown="ignore", sparse_output=False),
+                    trend_categorical,
+                ),
+                ("numeric", StandardScaler(), numeric),
+            ]
+        ),
+        TweedieRegressor(power=1.5, alpha=1.0, max_iter=1000),
+    )
+    trend.fit(trend_x, y)
+
+    res_cols = [names.index(k) for k in (
+        "temp", "atemp", "hum", "windspeed", "hr", "holiday", "weekday", "workingday", "weathersit", "weekend",
+    )]
+    res_cat_pos = [res_cols.index(orig) for orig in residual_categorical]
+    res_x = x[:, res_cols]
+    res_xp = xp[:, res_cols]
+
+    elapsed_idx = names.index("elapsed_days")
+    time_sin = np.sin(2 * np.pi * x[:, elapsed_idx] / 365.25)
+    time_cos = np.cos(2 * np.pi * x[:, elapsed_idx] / 365.25)
+    res_x = np.column_stack([res_x, time_sin, time_cos])
+    elapsed_idx_p = names.index("elapsed_days")
+    time_sin_p = np.sin(2 * np.pi * xp[:, elapsed_idx_p] / 365.25)
+    time_cos_p = np.cos(2 * np.pi * xp[:, elapsed_idx_p] / 365.25)
+    res_xp = np.column_stack([res_xp, time_sin_p, time_cos_p])
+
+    residuals = HistGradientBoostingRegressor(
+        max_iter=100,
+        categorical_features=res_cat_pos,
+        early_stopping=False,
+        random_state=seed,
+    )
+    residuals.fit(res_x, y - trend.predict(trend_x))
+
+    prediction = trend.predict(trend_xp) + residuals.predict(res_xp)
+    return np.expm1(np.maximum(0, prediction)).tolist()

@@ -1,0 +1,17 @@
+{
+  "source_sha256": "5be70d80b7b13176455ed828c3e83a0478b024f2110970d7746d2be2beaa0dfa",
+  "valid": false,
+  "mean_score": null,
+  "trials": [
+    {
+      "seed": 0,
+      "wall_seconds": 1.0261533750453964,
+      "cpu_seconds": 0.7983739999999955,
+      "exit_code": 1,
+      "timeout": false,
+      "stdout": "",
+      "stderr": "<HOME>/code/flint-autoresearch-release/.venv/lib/python3.12/site-packages/sklearn/linear_model/_linear_loss.py:200: RuntimeWarning: divide by zero encountered in matmul\n  raw_prediction = X @ weights + intercept\n<HOME>/code/flint-autoresearch-release/.venv/lib/python3.12/site-packages/sklearn/linear_model/_linear_loss.py:200: RuntimeWarning: overflow encountered in matmul\n  raw_prediction = X @ weights + intercept\n<HOME>/code/flint-autoresearch-release/.venv/lib/python3.12/site-packages/sklearn/linear_model/_linear_loss.py:200: RuntimeWarning: invalid value encountered in matmul\n  raw_prediction = X @ weights + intercept\n<HOME>/code/flint-autoresearch-release/.venv/lib/python3.12/site-packages/sklearn/linear_model/_linear_loss.py:330: RuntimeWarning: divide by zero encountered in matmul\n  grad[:n_features] = X.T @ grad_pointwise + l2_reg_strength * weights\n<HOME>/code/flint-autoresearch-release/.venv/lib/python3.12/site-packages/sklearn/linear_model/_linear_loss.py:330: RuntimeWarning: overflow encountered in matmul\n  grad[:n_features] = X.T @ grad_pointwise + l2_reg_strength * weights\n<HOME>/code/flint-autoresearch-release/.venv/lib/python3.12/site-packages/sklearn/linear_model/_linear_loss.py:330: RuntimeWarning: invalid value encountered in matmul\n  grad[:n_features] = X.T @ grad_pointwise + l2_reg_strength * weights\nTraceback (most recent call last):\n  File \"<WORKSPACE>/worker.py\", line 17, in <module>\n    solution = candidate.solve(\n               ^^^^^^^^^^^^^^^^\n  File \"<WORKSPACE>/solver.py\", line 75, in solve\n    res_cols.index(idx(name))\n                   ^^^^^^^^^\nTypeError: 'dict' object is not callable\n",
+      "valid": false
+    }
+  ]
+}

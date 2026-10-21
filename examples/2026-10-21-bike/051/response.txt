@@ -1,0 +1,22 @@
+I added a simple log-space residual calibration: compute the mean training residual and add it to the final predicted log count. This directly addresses the reported underprediction bias without changing the core trend/residual model.
+
+```python
+"""Fit Tweedie time/calendar trend plus boosted residuals with mean-residual calibration."""
+
+import numpy as np
+from sklearn.compose import ColumnTransformer
+from sklearn.ensemble import HistGradientBoostingRegressor
+from sklearn.linear_model import TweedieRegressor
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
+
+
+def solve(problem, seed, budget):
+    x = np.asarray(problem["train_x"])
+    xp = np.asarray(problem["predict_x"])
+    y = np.log1p(problem["train_y"])
+    names = problem["features"]
+
+    trend_categorical = [
+        names.index(k) for k in (
+            "season", "yr", "mnth", "hr", "holiday",

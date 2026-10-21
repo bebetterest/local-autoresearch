@@ -1,0 +1,18 @@
+{
+  "source_sha256": "aa3b3eeaa5273f641e1d98d662c84897d9fc2509fd39314f083ca414ce88f82c",
+  "valid": false,
+  "mean_score": null,
+  "trials": [
+    {
+      "seed": 0,
+      "wall_seconds": 1.935358333052136,
+      "cpu_seconds": 1.8791110000000004,
+      "exit_code": 0,
+      "timeout": false,
+      "stdout": "",
+      "stderr": "",
+      "valid": false,
+      "error": "Return each job index once per operation, with no missing or extra entries"
+    }
+  ]
+}

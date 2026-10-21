@@ -1,0 +1,23 @@
+{
+  "created_at": "2026-10-20T01:03:26.868941+00:00",
+  "purpose": "Separate library thread-configuration probe; not a research candidate, candidate replay, or scored experiment. Never supplied to Flint.",
+  "candidate_source_sha256": "3d740bf5c091e2cff44710c0f8bc8292745e059898c01bb9fdec4f25ce62f398",
+  "probe_source_sha256": "b3d0a639dd45afb12b41fa1843ddb21f66e6e37dc516f32ca3dd53664a8a411e",
+  "probe_source": "\"\"\"Probe native thread creation under the research runner's thread environment.\"\"\"\n\nimport json\nimport os\nimport subprocess\n\nimport scipy\nfrom scipy.optimize import linprog\nfrom scipy.optimize._highspy._core import _Highs\n\n\ndef threads():\n    rows = subprocess.check_output(['/bin/ps', '-M', '-p', str(os.getpid())], text=True).splitlines()\n    return len(rows) - 1\n\n\nhighs = _Highs()\nbefore = threads()\nresult = linprog([-1.0, -1.0], A_ub=[[1.0, 1.0]], b_ub=[1.0], bounds=[(0.0, 1.0), (0.0, 1.0)], method='highs')\nprint(json.dumps({\n    'scipy_version': scipy.__version__,\n    'environment': {name: os.environ[name] for name in ['OPENBLAS_NUM_THREADS', 'OMP_NUM_THREADS', 'VECLIB_MAXIMUM_THREADS', 'MKL_NUM_THREADS']},\n    'highs_default_threads': highs.getOptionValue('threads')[1],\n    'highs_default_parallel': highs.getOptionValue('parallel')[1],\n    'native_thread_rows_before_lp': before,\n    'native_thread_rows_after_lp': threads(),\n    'lp_success': result.success,\n}, indent=2))\n",
+  "execution": "Same pinned Python and SciPy and the same clean environment settings as the evaluator, outside the candidate OS sandbox. No Flint candidate code was executed.",
+  "measurement": "Count /bin/ps -M rows for the probe process, excluding the heading, before and after a tiny linear program. Native thread creation does not establish active parallel numerical work. Thread counts of the original recorded candidates were not measured.",
+  "result": {
+    "scipy_version": "1.18.1",
+    "environment": {
+      "OPENBLAS_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "VECLIB_MAXIMUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1"
+    },
+    "highs_default_threads": 0,
+    "highs_default_parallel": "choose",
+    "native_thread_rows_before_lp": 1,
+    "native_thread_rows_after_lp": 9,
+    "lp_success": true
+  }
+}

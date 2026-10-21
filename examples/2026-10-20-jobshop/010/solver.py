@@ -1,0 +1,48 @@
+def solve(problem, seed, budget):
+    jobs = problem["jobs"]
+    n_machines = problem.get("machines", 20)
+    n_jobs = len(jobs)
+    total = sum(len(ops) for ops in jobs)
+
+    job_ready = [0.0] * n_jobs
+    machine_ready = [0.0] * n_machines
+    next_op = [0] * n_jobs
+    seq = []
+
+    # Precompute remaining processing time for each job from each operation onward.
+    tails = []
+    for ops in jobs:
+        L = len(ops)
+        s = [0.0] * (L + 1)
+        for k in range(L - 1, -1, -1):
+            s[k] = s[k + 1] + ops[k][1]
+        tails.append(s)
+
+    while len(seq) < total:
+        best_key = None
+        best_j = -1
+        best_m = -1
+        best_finish = 0.0
+
+        for j, ops in enumerate(jobs):
+            if next_op[j] >= len(ops):
+                continue
+            m, d = ops[next_op[j]]
+            start = job_ready[j] if job_ready[j] > machine_ready[m] else machine_ready[m]
+            finish = start + d
+            tail = tails[j][next_op[j]]
+
+            # Improvement: prioritize longer remaining critical path, then earliest finish.
+            key = (-tail, finish, d, j)
+            if best_key is None or key < best_key:
+                best_key = key
+                best_j = j
+                best_m = m
+                best_finish = finish
+
+        job_ready[best_j] = best_finish
+        machine_ready[best_m] = best_finish
+        next_op[best_j] += 1
+        seq.append(best_j)
+
+    return seq

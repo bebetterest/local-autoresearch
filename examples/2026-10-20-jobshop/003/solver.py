@@ -1,0 +1,57 @@
+def solve(problem, seed, budget):
+    jobs = problem["jobs"]
+    n_machines = problem.get("machines", 20)
+    n_jobs = len(jobs)
+    total = sum(len(ops) for ops in jobs)
+
+    beam_width = 4
+
+    beam = [
+        {
+            "job_ready": [0.0] * n_jobs,
+            "machine_ready": [0.0] * n_machines,
+            "next_op": [0] * n_jobs,
+            "seq": [],
+        }
+    ]
+
+    for _ in range(total):
+        next_beam = []
+
+        for state in beam:
+            candidates = []
+
+            for j, ops in enumerate(jobs):
+                if state["next_op"][j] >= len(ops):
+                    continue
+
+                m, d = ops[state["next_op"][j]]
+                start = max(state["job_ready"][j], state["machine_ready"][m])
+                finish = start + d
+
+                # Existing greedy priority: earliest finish, shortest duration, job index.
+                key = (finish, d, j)
+                candidates.append((key, j, m, d, finish))
+
+            candidates.sort(key=lambda x: x[0])
+
+            for _, j, m, d, finish in candidates[:beam_width]:
+                new_state = {
+                    "job_ready": state["job_ready"][:],
+                    "machine_ready": state["machine_ready"][:],
+                    "next_op": state["next_op"][:],
+                    "seq": state["seq"] + [j],
+                }
+                new_state["job_ready"][j] = finish
+                new_state["machine_ready"][m] = finish
+                new_state["next_op"][j] += 1
+                next_beam.append(new_state)
+
+        beam = next_beam[:beam_width]
+
+    best = min(
+        beam,
+        key=lambda s: max(max(s["job_ready"]), max(s["machine_ready"]))
+    )
+
+    return best["seq"]

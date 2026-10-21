@@ -1,0 +1,29 @@
+{
+  "status": "complete",
+  "attempts": 100,
+  "seed": 0,
+  "best_attempt": "071",
+  "baseline_finishing_time": 3438,
+  "best_finishing_time": 2545,
+  "retained_improvements": 10,
+  "valid_attempts": 89,
+  "distinct_scored_programs": 79,
+  "repeated_scored_programs": 10,
+  "invalid_attempts": 11,
+  "failures": {
+    "invalid_solution": 2,
+    "response_limit": 3,
+    "cpu_limit": 5,
+    "program_error": 1
+  },
+  "finish_reasons": {
+    "stop": 97,
+    "length": 3
+  },
+  "model_response_seconds": 11561.56520858407,
+  "prompt_tokens": 250967,
+  "completion_tokens": 1022177,
+  "cpu_seconds": 832.3200410000001,
+  "limitations": "One synthetic instance and one evaluation seed, with a round-robin baseline. This does not establish optimality or performance on other factories. Programs that stop by elapsed time can vary even at a fixed seed.",
+  "verification": "Scores recomputed from saved schedules; responses checked against raw streams and extracted programs. Annotations are separate from model inputs and responses."
+}

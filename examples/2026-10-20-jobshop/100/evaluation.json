@@ -1,0 +1,17 @@
+{
+  "source_sha256": "848b2d92989b2689df1f346c9c8230067e35f0acf78eec752f98f28ddf37c201",
+  "valid": false,
+  "mean_score": null,
+  "trials": [
+    {
+      "seed": 0,
+      "wall_seconds": 4.63987058296334,
+      "cpu_seconds": 4.579421000000036,
+      "exit_code": 1,
+      "timeout": false,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"<WORKSPACE>/worker.py\", line 17, in <module>\n    solution = candidate.solve(\n               ^^^^^^^^^^^^^^^^\n  File \"<WORKSPACE>/solver.py\", line 151, in solve\n    op = cand.pop(i)\n         ^^^^^^^^^^^\nIndexError: pop index out of range\n",
+      "valid": false
+    }
+  ]
+}
