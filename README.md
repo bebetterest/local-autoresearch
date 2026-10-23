@@ -131,3 +131,13 @@ Flint is the default. If you already use another local model in OpenCode, you ca
 ## License
 
 Code, documentation and original visualizations are [MIT licensed](LICENSE). The UCI Bike Sharing data retains its [CC BY 4.0 license and attribution](tasks/bike/README.md#data). This license does not cover the separately distributed Flint model or runtime.
+
+## Star history
+
+<a href="https://www.star-history.com/?repos=conglu1997%2Flocal-autoresearch&amp;type=date">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=conglu1997/local-autoresearch&amp;type=Date&amp;theme=dark" />
+    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=conglu1997/local-autoresearch&amp;type=Date" />
+    <img alt="GitHub star history for local-autoresearch" src="https://api.star-history.com/svg?repos=conglu1997/local-autoresearch&amp;type=Date" />
+  </picture>
+</a>
