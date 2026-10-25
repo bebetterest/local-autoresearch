@@ -51,18 +51,22 @@ The research loop connects directly to the local API, reading its endpoint and a
 
 Use `rec stop` when finished to free the model's memory. Runtime and model downloads are separate from this repository and have their own licensing terms.
 
-## Another local model
+## Another model
 
-For a local server with a streaming OpenAI-compatible chat API, pass its base URL and model ID:
+For another streaming OpenAI-compatible chat API, pass its base URL and model ID:
 
 ```sh
 uv run python research.py --task route --run runs/local-route --experiments 4 \
   --base-url http://127.0.0.1:8080/v1 --model your-model --max-tokens 16384
 ```
 
-Use the same base URL and server-side model ID as your [OpenCode local provider](https://opencode.ai/docs/providers/#llamacpp). The runner calls that server directly. Replace `your-model` with the model you serve locally; `rec` is not needed for this path.
+For local inference, use the same base URL and model ID as your [OpenCode local provider](https://opencode.ai/docs/providers/#llamacpp). The runner calls that server directly; `rec` is not needed for this path.
 
 If the server needs authentication, add `--api-key-env LOCAL_MODEL_API_KEY` and set that environment variable. Only its name is saved. Keep it set when exporting the run so the credential check can use it.
+
+For remote inference, use, for example, `--base-url https://openrouter.ai/api/v1 --model recursive/flint-v1.0:free --api-key-env OPENROUTER_API_KEY` with that variable set. Prompts, code and feedback are sent to the selected server; evaluation stays local.
+
+Remote endpoints require HTTPS; HTTP is supported only on loopback hosts. The runner appends `/chat/completions` to the base URL. Embedded credentials, query parameters, fragments and redirects are rejected.
 
 ## Start and inspect a search
 
@@ -89,9 +93,9 @@ To extend a completed four-attempt run to eight total attempts:
 uv run python research.py --run runs/circle-demo --resume --experiments 8
 ```
 
-Resuming uses the saved seed and sampling settings and requires unchanged inputs, code, dependencies and local model configuration. Use a new run directory after changing them. Runs interrupted during an attempt cannot currently be resumed; keep their files and start a new run.
+Resuming uses the saved seed and sampling settings and requires unchanged inputs, code, dependencies and model configuration. Use a new run directory after changing them. Runs interrupted during an attempt cannot currently be resumed; keep their files and start a new run.
 
-For another local server, repeat the connection flags when resuming. Its URL and model ID are checked; keep its loaded weights and server settings unchanged too.
+For another local or remote server, repeat the connection flags when resuming. Its URL, model ID and API key variable name are checked. Keep the loaded weights and server settings unchanged too; a hosted model ID alone does not freeze its underlying model version.
 
 For bike demand, follow the [100-attempt protocol](../tasks/bike/README.md) and run `python -m tools.final_test` before exporting. It refits the frozen baseline and winner unchanged on training plus validation data and tests each once. It cannot be rerun, even if it fails.
 

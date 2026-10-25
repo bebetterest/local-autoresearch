@@ -1,6 +1,10 @@
 import json
+from io import BytesIO
 from pathlib import Path
 from types import SimpleNamespace
+from urllib.error import HTTPError
+from urllib.request import HTTPHandler, HTTPSHandler, build_opener
+from urllib.response import addinfourl
 
 import pytest
 
@@ -34,7 +38,7 @@ def test_local_stream_records_reasoning_content_and_usage_without_credentials(
         def __exit__(self, *args):
             return False
 
-    monkeypatch.setattr(research, "urlopen", lambda *args, **kwargs: Response())
+    monkeypatch.setattr(research.OPENER, "open", lambda *args, **kwargs: Response())
     body = {"model": "flint", "messages": [{"role": "user", "content": "Try another idea."}]}
     token = "test-token-must-not-be-recorded"
     response = research.complete(body, "http://127.0.0.1:11500/v1", token, tmp_path)
@@ -47,38 +51,69 @@ def test_local_stream_records_reasoning_content_and_usage_without_credentials(
     assert all(token not in path.read_text() for path in tmp_path.iterdir())
 
 
+def test_model_request_rejects_redirects(tmp_path, monkeypatch):
+    def redirect(self, request):
+        response = addinfourl(
+            BytesIO(b"Moved"), {"location": "http://other.example/v1"}, request.full_url, 302
+        )
+        response.msg = "Found"
+        return response
+
+    monkeypatch.setattr(HTTPSHandler, "https_open", redirect)
+    monkeypatch.setattr(
+        HTTPHandler, "http_open", lambda *args: pytest.fail("API key forwarded to redirect target")
+    )
+    monkeypatch.setattr(research, "OPENER", build_opener(research.NoRedirects))
+    with pytest.raises(HTTPError, match="302"):
+        research.complete({}, "https://api.example.com/v1", "private-test-credential", tmp_path)
+    assert (tmp_path / "http-error.txt").read_text() == "Moved"
+
+
 @pytest.mark.parametrize(
     "base_url",
     [
-        "https://api.example.com/v1",
+        "http://api.example.com/v1",
         "http://127.0.0.1.example.com/v1",
         "http://user:secret@localhost:8080/v1",
         "http://localhost:8080/v1?api_key=secret",
         "http://localhost:8080/v1#fragment",
+        "https://user:secret@api.example.com/v1",
+        "https://api.example.com/v1?api_key=secret",
+        "https://api.example.com/v1#fragment",
+        "https:///v1",
+        "ftp://api.example.com/v1",
     ],
 )
-def test_connection_rejects_remote_hosts_and_embedded_credentials(base_url):
-    with pytest.raises(ValueError, match="local base URL"):
-        research.local_server(base_url, "test-model", None)
+def test_connection_rejects_insecure_or_incomplete_urls_and_embedded_credentials(base_url):
+    with pytest.raises(ValueError, match="HTTPS base URL"):
+        research.model_server(base_url, "test-model", None)
 
 
-@pytest.mark.parametrize("host", ["127.0.0.1", "localhost", "[::1]"])
-def test_connection_accepts_loopback_without_rec(host):
-    url = f"http://{host}:8080/v1"
-    config = research.local_server(url + "/", "test-model", None)
+@pytest.mark.parametrize(
+    "url",
+    [
+        "http://127.0.0.1:8080/v1",
+        "http://localhost:8080/v1",
+        "http://[::1]:8080/v1",
+        "https://api.example.com/v1",
+    ],
+)
+def test_connection_accepts_loopback_and_https_without_rec(url):
+    config = research.model_server(url + "/", "test-model", None)
     assert config["endpoint"] == url
     assert research.api_key(config) is None
 
 
 def test_connection_flags_must_be_paired():
     with pytest.raises(ValueError, match="requires --model"):
-        research.local_server("http://localhost:8080/v1", None, None)
+        research.model_server("http://localhost:8080/v1", None, None)
     with pytest.raises(ValueError, match="require --base-url"):
-        research.local_server(None, "test-model", None)
+        research.model_server(None, "test-model", None)
 
 
-@pytest.mark.parametrize("key_env", [None, "LOCAL_MODEL_TEST_KEY"])
-def test_custom_model_run_resume_export_and_report(tmp_path, monkeypatch, key_env):
+@pytest.mark.parametrize("endpoint", ["http://127.0.0.1:8080/v1", "https://api.example.com/v1"])
+@pytest.mark.parametrize("key_env", [None, "MODEL_TEST_KEY"])
+def test_custom_model_run_resume_export_and_report(tmp_path, monkeypatch, key_env, endpoint):
     token = "private-test-credential"
     if key_env:
         monkeypatch.setenv(key_env, token)
@@ -97,18 +132,18 @@ def test_custom_model_run_resume_export_and_report(tmp_path, monkeypatch, key_en
 
     def respond(request, **kwargs):
         requested.append(json.loads(request.data))
-        assert request.full_url == "http://127.0.0.1:8080/v1/chat/completions"
+        assert request.full_url == endpoint + "/chat/completions"
         assert request.get_header("Authorization") == (f"Bearer {token}" if key_env else None)
         return Response()
 
-    monkeypatch.setattr(research, "urlopen", respond)
+    monkeypatch.setattr(research.OPENER, "open", respond)
     args = SimpleNamespace(
         run=tmp_path / "run",
         task="route",
         resume=False,
         experiments=1,
         max_tokens=1024,
-        base_url="http://127.0.0.1:8080/v1",
+        base_url=endpoint,
         model="test-model",
         api_key_env=key_env,
     )
@@ -125,7 +160,7 @@ def test_custom_model_run_resume_export_and_report(tmp_path, monkeypatch, key_en
         decision = json.loads((args.run / name / "decision.json").read_text())
         assert decision == {"decision": "discard", "parent": "000"}
     args.model = "changed-model"
-    with pytest.raises(RuntimeError, match="Local model configuration changed"):
+    with pytest.raises(RuntimeError, match="Model configuration changed"):
         research.run(args)
     target = tmp_path / "export"
     export(args.run, target)
@@ -137,10 +172,10 @@ def test_custom_model_run_resume_export_and_report(tmp_path, monkeypatch, key_en
 
 
 def test_missing_or_empty_custom_credential_fails(monkeypatch):
-    config = {"api_key_env": "LOCAL_MODEL_TEST_KEY"}
-    monkeypatch.delenv("LOCAL_MODEL_TEST_KEY", raising=False)
+    config = {"api_key_env": "MODEL_TEST_KEY"}
+    monkeypatch.delenv("MODEL_TEST_KEY", raising=False)
     with pytest.raises(KeyError):
         research.api_key(config)
-    monkeypatch.setenv("LOCAL_MODEL_TEST_KEY", "")
+    monkeypatch.setenv("MODEL_TEST_KEY", "")
     with pytest.raises(ValueError, match="must contain an API key"):
         research.api_key(config)

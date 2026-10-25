@@ -1,4 +1,4 @@
-"""A local model proposes; the evaluator measures; improvements become the next parent."""
+"""A model proposes; the local evaluator measures; improvements become the next parent."""
 
 import argparse
 import ast
@@ -12,10 +12,20 @@ from datetime import datetime, timezone
 from pathlib import Path
 from urllib.error import HTTPError
 from urllib.parse import urlsplit
-from urllib.request import Request, urlopen
+from urllib.request import HTTPRedirectHandler, Request, build_opener
 
 from runner.evaluate import CPU_SECONDS, ROOT, WALL_SECONDS, evaluate
 from tasks import TASKS
+
+
+class NoRedirects(HTTPRedirectHandler):
+    """Keep API credentials on the configured endpoint."""
+
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        return None
+
+
+OPENER = build_opener(NoRedirects)
 
 
 def save(path, value):
@@ -34,7 +44,7 @@ def api_key(inference):
     return key
 
 
-def local_server(base_url, model, api_key_env):
+def model_server(base_url, model, api_key_env):
     if base_url is None:
         if model is not None or api_key_env is not None:
             raise ValueError("--model and --api-key-env require --base-url")
@@ -52,13 +62,17 @@ def local_server(base_url, model, api_key_env):
     url = urlsplit(status["endpoint"])
     if (
         url.scheme not in {"http", "https"}
-        or url.hostname not in {"127.0.0.1", "localhost", "::1"}
+        or not url.hostname
+        or (url.scheme == "http" and url.hostname not in {"127.0.0.1", "localhost", "::1"})
         or url.username is not None
         or url.password is not None
         or url.query
         or url.fragment
     ):
-        raise ValueError("Use a local base URL without credentials, query parameters or fragments")
+        raise ValueError(
+            "Use an HTTPS base URL or a loopback HTTP URL, "
+            "without credentials, query parameters or fragments"
+        )
     return status
 
 
@@ -101,7 +115,7 @@ def complete(body, endpoint, key, directory):
     first_token = None
     try:
         with (
-            urlopen(request, timeout=300) as response,
+            OPENER.open(request, timeout=300) as response,
             (directory / "stream.jsonl").open("w") as log,
         ):
             for raw in response:
@@ -169,7 +183,7 @@ def make_prompt(brief, best, ledger):
 
 
 def run(args):
-    status = local_server(args.base_url, args.model, args.api_key_env)
+    status = model_server(args.base_url, args.model, args.api_key_env)
     endpoint = status["endpoint"]
     key = api_key(status)
     root = args.run.resolve()
@@ -179,7 +193,7 @@ def run(args):
             if hashlib.sha256((ROOT / name).read_bytes()).hexdigest() != expected:
                 raise RuntimeError(f"Fixed file changed since this run began: {name}")
         if status != manifest["inference"]:
-            raise RuntimeError("Local model configuration changed; start a new run")
+            raise RuntimeError("Model configuration changed; start a new run")
     else:
         root.mkdir(parents=True, exist_ok=False)
         task_files = [f"tasks/{args.task}/{name}" for name in ("baseline.py", "program.md")]
@@ -293,7 +307,9 @@ if __name__ == "__main__":
     parser.add_argument("--resume", action="store_true")
     parser.add_argument("--task", choices=list(TASKS), default="circle")
     parser.add_argument("--max-tokens", type=int, default=32768)
-    parser.add_argument("--base-url", help="Local chat API base URL, including /v1")
+    parser.add_argument(
+        "--base-url", help="Chat API base URL, including /v1; HTTPS or loopback HTTP"
+    )
     parser.add_argument("--model", help="Model ID served at --base-url; defaults to Flint via rec")
-    parser.add_argument("--api-key-env", help="Environment variable holding the local API key")
+    parser.add_argument("--api-key-env", help="Environment variable holding the API key")
     run(parser.parse_args())
