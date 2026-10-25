@@ -12,10 +12,20 @@ from datetime import datetime, timezone
 from pathlib import Path
 from urllib.error import HTTPError
 from urllib.parse import urlsplit
-from urllib.request import Request, urlopen
+from urllib.request import HTTPRedirectHandler, Request, build_opener
 
 from runner.evaluate import CPU_SECONDS, ROOT, WALL_SECONDS, evaluate
 from tasks import TASKS
+
+
+class NoRedirects(HTTPRedirectHandler):
+    """Keep API credentials on the configured endpoint."""
+
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        return None
+
+
+OPENER = build_opener(NoRedirects)
 
 
 def save(path, value):
@@ -105,7 +115,7 @@ def complete(body, endpoint, key, directory):
     first_token = None
     try:
         with (
-            urlopen(request, timeout=300) as response,
+            OPENER.open(request, timeout=300) as response,
             (directory / "stream.jsonl").open("w") as log,
         ):
             for raw in response:

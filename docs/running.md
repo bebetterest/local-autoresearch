@@ -1,6 +1,6 @@
 # Run an experiment
 
-Baseline checks, reports and verification work without a model server. Searches use Flint locally by default, with optional remote HTTPS inference.
+Baseline checks, reports and verification work without a model server. Searches use Flint locally by default.
 
 ## Setup
 
@@ -51,35 +51,22 @@ The research loop connects directly to the local API, reading its endpoint and a
 
 Use `rec stop` when finished to free the model's memory. Runtime and model downloads are separate from this repository and have their own licensing terms.
 
-## Another local model
+## Another model
 
-For a local server with a streaming OpenAI-compatible chat API, pass its base URL and model ID:
+For another streaming OpenAI-compatible chat API, pass its base URL and model ID:
 
 ```sh
 uv run python research.py --task route --run runs/local-route --experiments 4 \
   --base-url http://127.0.0.1:8080/v1 --model your-model --max-tokens 16384
 ```
 
-Use the same base URL and server-side model ID as your [OpenCode local provider](https://opencode.ai/docs/providers/#llamacpp). The runner calls that server directly. Replace `your-model` with the model you serve locally; `rec` is not needed for this path.
+For local inference, use the same base URL and model ID as your [OpenCode local provider](https://opencode.ai/docs/providers/#llamacpp). The runner calls that server directly; `rec` is not needed for this path.
 
 If the server needs authentication, add `--api-key-env LOCAL_MODEL_API_KEY` and set that environment variable. Only its name is saved. Keep it set when exporting the run so the credential check can use it.
 
-## Remote model server
+For remote inference, use, for example, `--base-url https://openrouter.ai/api/v1 --model recursive/flint-v1.0:free --api-key-env OPENROUTER_API_KEY` with that variable set. Prompts, code and feedback are sent to the selected server; evaluation stays local.
 
-For a remote server with a streaming OpenAI-compatible chat API, configure its HTTPS base URL, model ID and API key environment variable. For example, with an OpenRouter API key set in `OPENROUTER_API_KEY`:
-
-```sh
-uv run python research.py --task circle --run runs/openrouter-circle --experiments 4 \
-  --base-url https://openrouter.ai/api/v1 --model recursive/flint-v1.0:free \
-  --api-key-env OPENROUTER_API_KEY
-uv run python report.py runs/openrouter-circle
-```
-
-For another server, replace the URL, model ID and credential variable name. `--api-key-env` selects the variable explicitly; no provider or credential variable is inferred from the URL. Omit the flag for servers without authentication. Only the variable name is saved, not the key. Keep it set when exporting the run.
-
-Remote URLs must use HTTPS; HTTP remains available for `localhost`, `127.0.0.1` and `::1`. URLs cannot contain credentials, query parameters or fragments. The runner appends `/chat/completions` to the base URL.
-
-Task prompts, candidate code and evaluation feedback are sent to the selected server. Candidate execution and scoring still run in the local macOS sandbox. Set attempt and token limits appropriate to the server's capacity and pricing. Export and verification use the same commands as local runs.
+Remote endpoints require HTTPS; HTTP is supported only on loopback hosts. The runner appends `/chat/completions` to the base URL. Embedded credentials, query parameters, fragments and redirects are rejected.
 
 ## Start and inspect a search
 
@@ -106,7 +93,7 @@ To extend a completed four-attempt run to eight total attempts:
 uv run python research.py --run runs/circle-demo --resume --experiments 8
 ```
 
-Resuming uses the saved seed and sampling settings and requires unchanged inputs, code, dependencies and local model configuration. Use a new run directory after changing them. Runs interrupted during an attempt cannot currently be resumed; keep their files and start a new run.
+Resuming uses the saved seed and sampling settings and requires unchanged inputs, code, dependencies and model configuration. Use a new run directory after changing them. Runs interrupted during an attempt cannot currently be resumed; keep their files and start a new run.
 
 For another local or remote server, repeat the connection flags when resuming. Its URL, model ID and API key variable name are checked. Keep the loaded weights and server settings unchanged too; a hosted model ID alone does not freeze its underlying model version.
 

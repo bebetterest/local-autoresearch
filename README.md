@@ -124,11 +124,9 @@ Discovery labels for the detailed bike chart come from a JSON file passed to `--
 
 These demos use Recursive's Flint to bring automated experimentation onto a MacBook, drawing on ideas from [Recursive's automated research work](https://recursive.com/updates/first-steps-toward-automated-ai-research). The experiment loop builds on work including Andrej Karpathy's [autoresearch](https://github.com/karpathy/autoresearch) and my earlier work with collaborators on [The AI Scientist](https://sakana.ai/ai-scientist/). It also draws inspiration from [Evolution through Large Models (ELM)](https://arxiv.org/abs/2206.08896), Google DeepMind's [FunSearch](https://deepmind.google/blog/funsearch-making-new-discoveries-in-mathematical-sciences-using-large-language-models/) and [AlphaEvolve](https://deepmind.google/blog/alphaevolve-a-gemini-powered-coding-agent-for-designing-advanced-algorithms/) on evolving programs, and studies of [research ideation](https://arxiv.org/abs/2409.04109) and [the ideation–execution gap](https://arxiv.org/abs/2506.20803). [AlphaFold](https://deepmind.google/science/alphafold/) is a broader inspiration for AI in science.
 
-## Other local models
+## Other models
 
-Flint is the default. If you already use another local model in OpenCode, you can connect to its OpenAI-compatible chat server by adding `--base-url http://127.0.0.1:8080/v1 --model your-model` to the research command. Substitute your server's base URL and model ID. [Connection details](docs/running.md#another-local-model).
-
-For a remote model, configure an [HTTPS chat API](docs/running.md#remote-model-server) with the same connection flags. Candidate evaluation still runs locally; prompts and code are sent to the selected server.
+Flint is the default. To use another local or remote model, set `--base-url` and `--model`, plus `--api-key-env` if authentication is required. See the [connection details](docs/running.md#another-model).
 
 ## License
 
