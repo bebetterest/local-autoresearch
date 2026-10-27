@@ -24,9 +24,5 @@
     "research.py": "5f281effa2c9398aa70bff31c68f0f4f4129276d7129f621c95ecdd678c18025",
     "program.md": "5cceff3d2583ba2efddc85208af6cb2e2769a798fe250c7bcec5287327dc0275",
     "uv.lock": "5b6583e87fb0d805c6afb17e9df4b8a68f0414d7c13f85446771120aa444db42"
-  },
-  "authorship": {
-    "scaffolding_and_grid_baseline": "Codex",
-    "all_research_candidates": "Flint"
   }
 }
